@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDCourse" representedClassName="CDCourse" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreation" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nomCourse" attributeType="String"/>
+        <attribute name="tempsBonus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempsMalus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CDDetail" representedClassName="CDDetail" syncable="YES" codeGenerationType="class">
+        <attribute name="arrivee" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="courseId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="depart" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="groupeId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="groupeNom" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nbErreur" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nbValidation" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nomParcours" attributeType="String"/>
+        <attribute name="parcoursId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="temps" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CDGroupe" representedClassName="CDGroupe" syncable="YES" codeGenerationType="class">
+        <attribute name="courseId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nomGroupe" attributeType="String"/>
+    </entity>
+    <entity name="CDMaquetteGroupe" representedClassName="CDMaquetteGroupe" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nomGroupe" attributeType="String"/>
+        <attribute name="nomMaquette" attributeType="String"/>
+    </entity>
+    <entity name="CDMaquetteParcours" representedClassName="CDMaquetteParcours" syncable="YES" codeGenerationType="class">
+        <attribute name="distance" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nomMaquette" attributeType="String"/>
+        <attribute name="nomParcours" attributeType="String"/>
+    </entity>
+    <entity name="CDParcours" representedClassName="CDParcours" syncable="YES" codeGenerationType="class">
+        <attribute name="courseId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="distance" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="parcoursNom" attributeType="String"/>
+        <attribute name="parcoursNum" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="CDCourse" positionX="221.60546875" positionY="242.15234375" width="128" height="118"/>
+        <element name="CDDetail" positionX="-33.703125" positionY="367.984375" width="128" height="208"/>
+        <element name="CDGroupe" positionX="-292.1953125" positionY="258.7734375" width="128" height="88"/>
+        <element name="CDMaquetteGroupe" positionX="-81" positionY="396" width="128" height="88"/>
+        <element name="CDMaquetteParcours" positionX="-90" positionY="387" width="128" height="103"/>
+        <element name="CDParcours" positionX="-90" positionY="360" width="128" height="118"/>
+    </elements>
+</model>
