@@ -11,14 +11,13 @@ struct ErreursView: View {
     
     let objGroupe : Groupe
     @State var parcoursManager : ParcoursManager
-    @State var erreurManager : ErreurManager
+    @State var erreurManager = ErreurManager()
     @State var selectorIndex = 0
     let choix = ["Erreurs","Validations"]
     let icon = ["xmark","checkmark"]
     let choixText = ["Nombre de balises fausses","Nombre de balises correctes"]
     let color: [Color] = [.red,.green]
-    @State var err: [Int16]
-    @State var valid: [Int16]
+    @EnvironmentObject var listActuelle : ListActuelle
     @State var listReal: [Detail] = []
     
     var body: some View {
@@ -50,36 +49,43 @@ struct ErreursView: View {
                         if selectorIndex > 0 {
                             Stepper(
                                 onIncrement: {
-                                    valid[index] += 1
-                                    UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(valid[index])) },
+                                    let value = errValList.arrayValid[index] + 1
+                                    print(value)
+                                    UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
+                                    errValList.arrayValid[index] = value
+                                },
                                 onDecrement: {
-                                    if valid[index] > 0{
-                                        valid[index] -= 1
-                                        UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(valid[index]))
-                                        
+                                    if errValList.arrayValid[index] > 0{
+                                        let value = errValList.arrayValid[index] - 1
+                                        UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
+                                        errValList.arrayValid[index] = value
                                     }else{
-                                        valid[index] = 0
+                                        errValList.arrayValid[index] = 0
                                     }
                                     
                                 },
-                                label: { Text(" \(valid[index]) ")})
+                                label: { Text(" \(errValList.arrayValid[index]) ")})
                             
                         }else{
                             Stepper(
                                 onIncrement: {
-                                    err[index] += 1
-                                    UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(err[index])) },
+                                    let value = errValList.arrayErr[index] + 1
+                                    print(errValList.arrayErr)
+                                    UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
+                                    errValList.arrayErr[index] = value
+                                },
                                 onDecrement: {
-                                    if err[index] > 0{
-                                        err[index] -= 1
-                                        UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(err[index]))
+                                    if errValList.arrayErr[index] > 0{
+                                        let value = errValList.arrayErr[index] - 1
+                                        UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
+                                        errValList.arrayErr[index] = value
                                         
                                     }else{
-                                        err[index] = 0
+                                        errValList.arrayErr[index] = 0
                                     }
                                     
                                 },
-                                label: { Text(" \(err[index]) ")})
+                                label: { Text(" \(errValList.arrayErr[index]) ")})
                         }
                     }
                 }
@@ -90,20 +96,20 @@ struct ErreursView: View {
         .navigationTitle("Carton de contrôle")
         .onAppear(){
             parcoursManager = ParcoursManager(courseId: objGroupe.courseId)
-            erreurManager = ErreurManager(listErr: err, listValid: valid)
+            errValList.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listReal)
+            errValList.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listReal)
         }
         
     }
     
     func UpdateErr(det : Detail, nb : Int) {
         erreurManager.updateNbErreur(detail: det, nbErreur: Int16(nb), parcoursRealiseList: listReal)
-        err = erreurManager.ArrayNbErreur(parcoursRealiseList: listReal)
-        print(err)
+        errValList.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listReal)
     }
     
     func UpdateValid(det : Detail, nb : Int) {
         erreurManager.updateNbValidation(detail: det, nbValid: Int16(nb), parcoursRealiseList: listReal)
-        valid = erreurManager.ArrayNbValid(parcoursRealiseList: listReal)
+        errValList.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listReal)
         
     }
 }

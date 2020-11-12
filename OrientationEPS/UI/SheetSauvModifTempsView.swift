@@ -15,8 +15,6 @@ struct SheetSauvModifTempsView: View {
     @State var ancienTemps : Int32 = 0
     @State var nouveauTemps = 0
     @Binding var list: [ParcoursModificationTemps]
-    @Binding var listNbValid: [Int16]
-    @Binding var listNbErreur: [Int16]
     @Binding var listReal : [Detail]
     @State var bonFormatSec = true
     @State var bonFormatMin = true
@@ -24,6 +22,7 @@ struct SheetSauvModifTempsView: View {
     @State var sec = ""
     @State var detailManager : DetailManager
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var errValList : ErrValList
     
     var body: some View {
         NavigationView{
@@ -154,8 +153,8 @@ struct SheetSauvModifTempsView: View {
             DetailManager(groupe: objGroupe).removeDetail(detail: parcoursModif.detail)
         }
         listReal = detailManager.parcoursRealiseList
-        listNbValid = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbValid(parcoursRealiseList: listReal)
-        listNbErreur = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbErreur(parcoursRealiseList: listReal)
+        errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
+        errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
         list = ModificationTempsManager().getModificationTempsList(crsId: objGroupe.courseId, grId: objGroupe.id)
         self.presentationMode.wrappedValue.dismiss()
     }

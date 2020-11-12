@@ -18,8 +18,7 @@ struct GroupeDetailsView: View {
     @State var toutLesParcoursSontTermines = false
     @State private var action: Int? = 0
     @State var listReal : [Detail] = []
-    @State var listNbValid : [Int16] = []
-    @State var listNbErreur : [Int16] = []
+    @EnvironmentObject var listActuelle : ListActuelle
     
     
     var body: some View {
@@ -97,7 +96,9 @@ struct GroupeDetailsView: View {
                 if listReal.count > 0{
                     List {
                         ForEach(0 ..< listReal.count, id:\.self){ index in
-                            ElementList(parcoursManager: parcoursManager, listReal: listReal, listNbValid: listNbValid, listNbErreur: listNbErreur, index: index, objGroupe: objGroupe).environmentObject(objCourse)
+                            ElementList(parcoursManager: parcoursManager, listReal: listReal, index: index, objGroupe: objGroupe)
+                                .environmentObject(objCourse)
+                                .environmentObject(listActuelle)
                         }
                         HStack{
                             VStack{
@@ -148,14 +149,9 @@ struct GroupeDetailsView: View {
             parcoursManager = ParcoursManager(courseId: objGroupe.courseId)
             detailManager = DetailManager(groupe: objGroupe)
             listReal = detailManager.parcoursRealiseList
-            listNbValid = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbValid(parcoursRealiseList: listReal)
-            
-            listNbErreur = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbErreur(parcoursRealiseList: listReal)
-            
-            print(listReal.count)
-            print(listNbErreur)
+            errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
+            errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
             listeParcoursRestants = detailManager.ListeParcoursRestants()
-            print(listNbErreur)
             if detailManager.enCourseList.count > 0{
                 let indProv = detailManager.ListeParcoursRestants().firstIndex(where: { $0.id == detailManager.enCourseList[0].parcoursId }) ?? -1
                 selectedParcoursIndex = indProv + 1
@@ -165,8 +161,8 @@ struct GroupeDetailsView: View {
         })
         NavigationLink(destination: CestPartiView(), tag: 1, selection: $action){}
         NavigationLink(destination: FinParcoursView(objGroupe: objGroupe).environmentObject(objCourse), tag: 2, selection: $action){}
-        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id!), erreurManager: ErreurManager(listErr: listNbErreur, listValid: listNbValid),err: listNbErreur, valid: listNbValid, listReal: listReal), tag: 3, selection: $action){}
-        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id), listReal: $listReal, listNbValid: $listNbValid, listNbErreur : $listNbErreur), tag: 4, selection: $action){}
+        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id!), erreurManager: ErreurManager(), listReal: listReal).environmentObject(listActuelle), tag: 3, selection: $action){}
+        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id), listReal: $listReal).environmentObject(listActuelle), tag: 4, selection: $action){}
     }
     
     func depart() {
@@ -210,8 +206,7 @@ struct Header1: View {
 struct ElementList: View {
     @State var parcoursManager : ParcoursManager
     @State var listReal : [Detail]
-    @State var listNbValid : [Int16]
-    @State var listNbErreur : [Int16]
+    @EnvironmentObject var listActuelle : ListActuelle
     @State var index : Int
     @EnvironmentObject var objCourse : CourseActuelle
     @State var objGroupe: Groupe
@@ -242,15 +237,15 @@ struct ElementList: View {
             HStack{
                 Spacer()
                 Text("\(TempsAffichable().secondsToMinutesSeconds(temps: TempsAffichable().TempsAvecBonusMalus(detail: listReal[index], course: objCourse)))")}
-            if listNbValid[index] > 0 || listNbErreur[index] > 0{
+            if errValList.arrayValid[index] > 0 || errValList.arrayErr[index] > 0{
                 HStack{
                     Spacer()
-                    if listNbValid[index] > 0{
-                            Text("\(listNbValid[index])").foregroundColor(.green)
+                    if errValList.arrayValid[index] > 0{
+                            Text("\(errValList.arrayValid[index])").foregroundColor(.green)
                             Image(systemName: "checkmark").foregroundColor(.green)
                         }
-                    if listNbErreur[index] > 0{
-                            Text("\(listNbErreur[index])").foregroundColor(.red)
+                    if errValList.arrayErr[index] > 0{
+                            Text("\(errValList.arrayErr[index])").foregroundColor(.red)
                             Image(systemName: "xmark").foregroundColor(.red)
                         }
                 }.font(.subheadline)

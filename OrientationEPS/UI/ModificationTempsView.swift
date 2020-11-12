@@ -15,8 +15,7 @@ struct ModificationTempsView: View {
     @State var selectedParcoursModif: ParcoursModificationTemps?
     @State var listParcours : [ParcoursModificationTemps]
     @Binding var listReal : [Detail]
-    @Binding var listNbValid: [Int16]
-    @Binding var listNbErreur: [Int16]
+    @EnvironmentObject var listActuelle : ListActuelle
     
     var body: some View {
         Form{
@@ -46,7 +45,7 @@ struct ModificationTempsView: View {
                 
             }}
         Text("").hidden().sheet(item: self.$selectedParcoursModif, content: { sel in
-            SheetSauvModifTempsView(parcoursModif: sel, objGroupe: objGroupe, list: $listParcours, listNbValid: $listNbValid, listNbErreur : $listNbErreur, listReal: $listReal, detailManager : DetailManager(groupe: objGroupe))
+            SheetSauvModifTempsView(parcoursModif: sel, objGroupe: objGroupe, list: $listParcours, listReal: $listReal, detailManager : DetailManager(groupe: objGroupe))
         })
         .onAppear(){
             detailManager = DetailManager(groupe: objGroupe)
@@ -61,8 +60,8 @@ struct ModificationTempsView: View {
         }
         listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)
         listReal = detailManager.parcoursRealiseList
-        listNbValid = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbValid(parcoursRealiseList: listReal)
-        listNbErreur = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbErreur(parcoursRealiseList: listReal)
+        errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
+        errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
     }
 }
 

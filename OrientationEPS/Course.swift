@@ -88,3 +88,10 @@ struct ParcoursModificationTemps : Identifiable {
     let parcours : Parcours
     let detail : Detail
 }
+
+class ListActuelle : ObservableObject {
+    @Published var arrayErr : [Int16] = [0]
+    @Published var arrayValid : [Int16] = [0]
+    @Published var listReal : [Detail] = []
+}
+

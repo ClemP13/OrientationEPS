@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BtComponentView: View {
+    let errValList = ErrValList()
     let objGroupe: Groupe
     var num : Int
     
@@ -15,7 +16,7 @@ struct BtComponentView: View {
         let nom = objGroupe.nomGroupe.replacingOccurrences(of: " ", with: "\n")
         HStack{
             NavigationLink(
-                destination: GroupeDetailsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objGroupe.courseId), listeParcoursRestants: DetailManager(groupe: objGroupe).ListeParcoursRestants(), listReal: DetailManager(groupe: objGroupe).parcoursRealiseList),
+                destination: GroupeDetailsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objGroupe.courseId), listeParcoursRestants: DetailManager(groupe: objGroupe).ListeParcoursRestants(), listReal: DetailManager(groupe: objGroupe).parcoursRealiseList).environmentObject(errValList),
                 label: {
                     HStack{
                         Text("\(nom)")

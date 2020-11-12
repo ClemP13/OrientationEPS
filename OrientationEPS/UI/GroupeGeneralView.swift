@@ -12,6 +12,7 @@ struct GroupeGeneralView: View {
     @State var groupeManager : GroupeManager
     var flexibleLayout = [GridItem(.flexible()),GridItem(.flexible()), GridItem(.flexible())]
     
+    
     var body: some View {
         ScrollView{
             if groupeManager.groupeList.count == 0 {

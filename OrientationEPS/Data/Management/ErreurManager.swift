@@ -9,17 +9,13 @@ import Foundation
 
 struct ErreurManager {
     let storage:OriEPS = OriEPS()
-    var listErr : [Int16]
-    var listValid : [Int16]
     
     mutating func updateNbErreur(detail: Detail, nbErreur:Int16,parcoursRealiseList: [Detail]) {
             storage.updateNbErreur(detail: detail, nb: nbErreur)
-        listErr = ArrayNbErreur(parcoursRealiseList: parcoursRealiseList)
     }
     
     mutating func updateNbValidation(detail: Detail, nbValid:Int16,parcoursRealiseList: [Detail]) {
             storage.updateNbValidation(detail: detail, nb: nbValid)
-        listValid = ArrayNbValid(parcoursRealiseList: parcoursRealiseList)
     }
     
     func ArrayNbErreur(parcoursRealiseList: [Detail]) -> [Int16] {
