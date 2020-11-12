@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct BonusMalusView: View {
-    @Binding var objCourse: Course
-    @State var tempsMalus : Int16 = 0
-    @State var tempsBonus : Int16 = 0
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var selectedMalus : Int = 0
     @State var selectedBonus : Int = 0
     let tempsBonusMalusEnSec : [Int] = [0,5,10,15,30,45,60,90,120,180,240,300,600,1200,1800]
@@ -24,8 +22,8 @@ struct BonusMalusView: View {
                             get: { self.selectedMalus },
                             set: { (newValue) in
                                 self.selectedMalus = newValue
-                                objCourse = CourseManager().updateMalus(course: objCourse, malus: Int16(tempsBonusMalusEnSec[selectedMalus]))
-                                tempsMalus = Int16(tempsBonusMalusEnSec[selectedMalus])
+                                CourseManager().updateMalus(courseId: objCourse.id!, malus: Int16(tempsBonusMalusEnSec[selectedMalus]))
+                                objCourse.tempsMalus = Int16(tempsBonusMalusEnSec[selectedMalus])
                             }), label: labE()) {
                         let count = tempsBonusMalusEnSec.count
                         ForEach (0 ..< count, id: \.self) {
@@ -39,8 +37,8 @@ struct BonusMalusView: View {
                             get: { self.selectedBonus },
                             set: { (newValue) in
                                 self.selectedBonus = newValue
-                                objCourse = CourseManager().updateBonus(course: objCourse, bonus: Int16(tempsBonusMalusEnSec[selectedBonus]))
-                                tempsBonus = Int16(tempsBonusMalusEnSec[selectedBonus])
+                                CourseManager().updateBonus(courseId: objCourse.id!, bonus: Int16(tempsBonusMalusEnSec[selectedBonus]))
+                                objCourse.tempsBonus = Int16(tempsBonusMalusEnSec[selectedBonus])
                             }), label: labV()) {
                         let count = tempsBonusMalusEnSec.count
                         ForEach (0 ..< count, id: \.self) {
@@ -65,13 +63,30 @@ struct BonusMalusView: View {
             }
         }
         .onAppear(){
-            tempsBonus = objCourse.tempsBonus
-            tempsMalus = objCourse.tempsMalus
-            selectedBonus = tempsBonusMalusEnSec.firstIndex(of: Int(tempsBonus))!
-            selectedMalus = tempsBonusMalusEnSec.firstIndex(of: Int(tempsMalus))!
+            selectedBonus = tempsBonusMalusEnSec.firstIndex(of: Int(objCourse.tempsBonus))!
+            selectedMalus = tempsBonusMalusEnSec.firstIndex(of: Int(objCourse.tempsMalus))!
             
         }
         Spacer()
     }
 }
 
+struct labV : View{
+    var body: some View {
+        HStack{
+            Text("Bonus pour balise correcte")
+            Image(systemName:"checkmark")
+                .foregroundColor(.green)
+        }
+    }
+}
+
+struct labE : View{
+    var body: some View {
+        HStack{
+            Text("Malus pour balise fausse")
+            Image(systemName:"xmark")
+                .foregroundColor(.red)
+        }
+    }
+}

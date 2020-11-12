@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct SuiviView: View {
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var suiviManager: SuiviManager
     @State var groupeEnCourse: [DetailEnCourse] = []
     @State var groupeEnAttente: [Groupe] = []
@@ -25,7 +25,7 @@ struct SuiviView: View {
                             List{
                             ForEach(groupeEnCourse){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr.groupe, objCourse: objCourse, detailManager: DetailManager(groupe: gr.groupe), parcoursManager: ParcoursManager(courseId: objCourse.id), listeParcoursRestants: DetailManager(groupe: gr.groupe).ListeParcoursRestants(), listReal: []),
+                                    destination: GroupeDetailsView(objGroupe: gr.groupe, detailManager: DetailManager(groupe: gr.groupe), parcoursManager: ParcoursManager(courseId: objCourse.id!), listeParcoursRestants: DetailManager(groupe: gr.groupe).ListeParcoursRestants(), listReal: []),
                                     label: {
                                         HStack{
                                             Text(gr.groupe.nomGroupe)
@@ -50,7 +50,7 @@ struct SuiviView: View {
                         if groupeEnAttente.count > 0{
                             ForEach(groupeEnAttente){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr,objCourse: objCourse, detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []),
+                                    destination: GroupeDetailsView(objGroupe: gr,detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []).environmentObject(objCourse),
                                     label: {
                                         HStack{
                                             Text(gr.nomGroupe)
@@ -69,7 +69,7 @@ struct SuiviView: View {
                         if groupeAyantTermine.count > 0{
                             ForEach(groupeAyantTermine){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr, objCourse: objCourse, detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []),
+                                    destination: GroupeDetailsView(objGroupe: gr, detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []).environmentObject(objCourse)   ,
                                     label: {
                                         HStack{
                                             Text(gr.nomGroupe)
@@ -89,7 +89,7 @@ struct SuiviView: View {
         
                 .navigationBarHidden(true)
                 .onAppear(perform:{
-                    suiviManager = SuiviManager(courseId: objCourse.id)
+                    suiviManager = SuiviManager(courseId: objCourse.id!)
                     groupeEnCourse = suiviManager.groupeEnCourseList()
                     groupeEnAttente = suiviManager.groupeEnAttenteList()
                     groupeAyantTermine = suiviManager.groupesAyantTermines()

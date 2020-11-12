@@ -162,33 +162,33 @@
 		5CA29D06255C296A00329C7C /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				5CA29D07255C296A00329C7C /* SheetSauvModifTempsView.swift */,
-				5CA29D08255C296A00329C7C /* SheetMaquetteParcoursView.swift */,
+				5CA29D0D255C296A00329C7C /* BonusMalusView.swift */,
 				5CA29D09255C296A00329C7C /* BtComponentView.swift */,
+				5CA29D1D255C296A00329C7C /* CestPartiView.swift */,
+				5CA29D0E255C296A00329C7C /* ChronoView.swift */,
+				5CA29D13255C296A00329C7C /* ClassementView.swift */,
+				5CA29D18255C296A00329C7C /* CourseListView.swift */,
+				5CA29D1C255C296A00329C7C /* DepartsSimultanesView.swift */,
+				5CA29D20255C296A00329C7C /* ErreursView.swift */,
+				5CA29D11255C296A00329C7C /* FinParcoursView.swift */,
+				5CA29D10255C296A00329C7C /* GeneralView.swift */,
+				5CA29D1E255C296A00329C7C /* GestionListeGroupeView.swift */,
+				5CA29D14255C296A00329C7C /* GroupeDetailsView.swift */,
+				5CA29D15255C296A00329C7C /* GroupeGeneralView.swift */,
+				5CA29D1A255C296A00329C7C /* Localizable.stringsdict */,
 				5CA29D0A255C296A00329C7C /* ModificationTempsView.swift */,
 				5CA29D0B255C296A00329C7C /* ReglagesView.swift */,
 				5CA29D0C255C296A00329C7C /* RenameEditCourseView.swift */,
-				5CA29D0D255C296A00329C7C /* BonusMalusView.swift */,
-				5CA29D0E255C296A00329C7C /* ChronoView.swift */,
 				5CA29D0F255C296A00329C7C /* RenameEditGroupeView.swift */,
-				5CA29D10255C296A00329C7C /* GeneralView.swift */,
-				5CA29D11255C296A00329C7C /* FinParcoursView.swift */,
-				5CA29D12255C296A00329C7C /* SheetSauvGroupeMaquetteView.swift */,
-				5CA29D13255C296A00329C7C /* ClassementView.swift */,
-				5CA29D14255C296A00329C7C /* GroupeDetailsView.swift */,
-				5CA29D15255C296A00329C7C /* GroupeGeneralView.swift */,
-				5CA29D16255C296A00329C7C /* Suivi.swift */,
-				5CA29D17255C296A00329C7C /* SheetMaquetteGroupeView.swift */,
-				5CA29D18255C296A00329C7C /* CourseListView.swift */,
-				5CA29D19255C296A00329C7C /* Settings.swift */,
-				5CA29D1A255C296A00329C7C /* Localizable.stringsdict */,
-				5CA29D1B255C296A00329C7C /* SheetSauvParcoursMaquetteView.swift */,
-				5CA29D1C255C296A00329C7C /* DepartsSimultanesView.swift */,
-				5CA29D1D255C296A00329C7C /* CestPartiView.swift */,
-				5CA29D1E255C296A00329C7C /* GestionListeGroupeView.swift */,
-				5CA29D1F255C296A00329C7C /* SuiviView.swift */,
-				5CA29D20255C296A00329C7C /* ErreursView.swift */,
 				5CA29D21255C296A00329C7C /* RenameEditParcoursView.swift */,
+				5CA29D19255C296A00329C7C /* Settings.swift */,
+				5CA29D17255C296A00329C7C /* SheetMaquetteGroupeView.swift */,
+				5CA29D08255C296A00329C7C /* SheetMaquetteParcoursView.swift */,
+				5CA29D12255C296A00329C7C /* SheetSauvGroupeMaquetteView.swift */,
+				5CA29D07255C296A00329C7C /* SheetSauvModifTempsView.swift */,
+				5CA29D1B255C296A00329C7C /* SheetSauvParcoursMaquetteView.swift */,
+				5CA29D16255C296A00329C7C /* Suivi.swift */,
+				5CA29D1F255C296A00329C7C /* SuiviView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -272,7 +272,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5CA29CED255C291200329C7C /* Build configuration list for PBXProject "OrientationEPS" */;
+			buildConfigurationList = 5CA29CED255C291200329C7C /* Build configuration list for PBXProject "OrientationEPS1" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -521,7 +521,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5CA29CED255C291200329C7C /* Build configuration list for PBXProject "OrientationEPS" */ = {
+		5CA29CED255C291200329C7C /* Build configuration list for PBXProject "OrientationEPS1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CA29CFF255C291500329C7C /* Debug */,

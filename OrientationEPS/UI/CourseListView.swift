@@ -12,11 +12,18 @@ struct CourseListView: View {
     @State var courseManager = CourseManager()
     @State var list : [Course] = []
     @State var selectedCourse: Course?
+    @State private var action : Int? = 0
     let stopwatch = Stopwatch()
+    @ObservedObject var objCourse = CourseActuelle()
+    @State var courseId : UUID = UUID()
     
+    init() {
+        objCourse.id = UUID()
+    }
     var body: some View {
         NavigationView{
             VStack{
+                NavigationLink(destination: getDestination().environmentObject(objCourse), tag: 1, selection: $action){}
                 HStack {
                     Text("Orientation")
                         .fontWeight(.heavy)
@@ -69,17 +76,24 @@ struct CourseListView: View {
                         }else {
                             ForEach(0 ..< count, id: \.self){ index in
                                 HStack {
-                                    NavigationLink(
-                                        destination: getDestination(objCourse: list[index]),
-                                        label: {
                                             Image(systemName: "pencil.circle.fill")
                                                 .font(.title)
                                                 .onTapGesture {
                                                     self.selectedCourse = list[index]
                                                 }
                                             ListRow(objCourse: list[index])
-                                            
-                                        })
+                                            Spacer()
+                                    Image(systemName: "chevron.right.circle.fill")
+                                        .font(.title)
+                                        .onTapGesture {
+                                        objCourse.id = list[index].id
+                                            objCourse.nomCourse = list[index].nomCourse
+                                            objCourse.dateCreation = list[index].dateCreation
+                                            objCourse.tempsBonus = list[index].tempsBonus
+                                            objCourse.tempsMalus = list[index].tempsMalus
+                                            print(objCourse.id!)
+                                          self.action = 1
+                                        }
                                 }
                             }.onDelete(perform: { indexSet in
                                 DeleteCourse(ind: indexSet)
@@ -93,6 +107,7 @@ struct CourseListView: View {
             
         }
             .onAppear(){
+                print(objCourse.id!)
                 list = courseManager.recupListe()
                 if !UserDefaults.standard.bool(forKey: "premièreOuverture"){
                     UserDefaults.standard.setValue(true, forKey: "premièreOuverture")
@@ -106,11 +121,12 @@ struct CourseListView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         
     }
-    func getDestination(objCourse: Course) -> AnyView {
-        if GroupeManager(courseId: objCourse.id).groupeList.count > 0 && ParcoursManager(courseId: objCourse.id).parcoursList.count > 0 {
-               return AnyView(GeneralView(objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id)).environmentObject(stopwatch))
+    func getDestination() -> AnyView {
+
+        if GroupeManager(courseId: objCourse.id!).groupeList.count > 0 && ParcoursManager(courseId: objCourse.id!).parcoursList.count > 0 {
+               return AnyView(GeneralView(groupeManager: GroupeManager(courseId: courseId)).environmentObject(stopwatch))
             }else{
-                return AnyView(ReglagesView(ReprendreLaCourse: false, objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id), parcoursManager: ParcoursManager(courseId: objCourse.id)).environmentObject(stopwatch))
+                return AnyView(ReglagesView(ReprendreLaCourse: false, groupeManager: GroupeManager(courseId: objCourse.id!), parcoursManager: ParcoursManager(courseId: objCourse.id!)).environmentObject(stopwatch))
                 
             }
         }
@@ -128,7 +144,7 @@ struct CourseListView: View {
     
     func DeleteCourse(ind: IndexSet) {
         for i in ind {
-            courseManager.removeCourse(course: courseManager.courseList[i])
+            courseManager.removeCourse(courseId: courseManager.courseList[i].id)
         }
         list = courseManager.courseList
     }
@@ -137,8 +153,8 @@ struct CourseListView: View {
     func insererDataInit() {
         courseManager.addCourse(withName: "Course exemple")
         let courseId = courseManager.courseList[0].id
-        _ = courseManager.updateMalus(course: courseManager.courseList[0], malus: 60)
-        _ = courseManager.updateBonus(course: courseManager.courseList[0], bonus: 5)
+        courseManager.updateMalus(courseId: courseManager.courseList[0].id, malus: 60)
+        courseManager.updateBonus(courseId: courseManager.courseList[0].id, bonus: 5)
         let dist: [Int16] = [1000,1200,1000,800,1100,900]
         let parcName: [String] = ["Parcours A","Parcours B","Parcours C","Parcours D","Parcours E","Parcours F"]
         var parcoursManager = ParcoursManager(courseId: courseId)

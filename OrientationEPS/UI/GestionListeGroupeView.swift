@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GestionListeGroupeView: View {
     @State var groupeManager : GroupeManager
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var newGroupeName:String = ""
     @State var list : [Groupe] = []
     @State var selectedGroupe: Groupe?
@@ -18,10 +18,10 @@ struct GestionListeGroupeView: View {
     @EnvironmentObject var stopwatch : Stopwatch
     
     var body: some View {
-        NavigationLink(destination: GeneralView(objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id), selectedTab: 2).environmentObject(stopwatch), tag: 1, selection: $action) {}
+        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(stopwatch), tag: 1, selection: $action) {}
         Form{
             Section(header: Text("Créer des coureurs")){
-                NavigationLink(destination: SheetMaquetteGroupeView(objCourse: objCourse, list: $list, groupeManager: GroupeManager(courseId: objCourse.id), listeMaquette: MaquetteManager().MaquetteDistinctGroupeList)) {
+                NavigationLink(destination: SheetMaquetteGroupeView(list: $list, groupeManager: GroupeManager(courseId: objCourse.id!), listeMaquette: MaquetteManager().MaquetteDistinctGroupeList)) {
                     Text("Par import d'une maquette")
                 }
                 Text("Par création manuelle :")
@@ -61,7 +61,7 @@ struct GestionListeGroupeView: View {
                     if count == 0 {
                         Text("Aucun coureur dans cette course. Cliquer sur le + orange pour ajouter un coureur")
                     }else{
-                        NavigationLink(destination: SheetSauvGroupeMaquetteView(courseId: objCourse.id)) {
+                        NavigationLink(destination: SheetSauvGroupeMaquetteView(courseId: objCourse.id!)) {
                             Text("Sauv. liste comme maquette")
                         }
         List {
@@ -107,6 +107,7 @@ struct GestionListeGroupeView: View {
             Alert(title: Text("Liste vide"), message: Text("Ajouter au minimum un groupe à la liste, en appuyant sur le + orange"), dismissButton: .default(Text("Compris")))
         }
             .onAppear(){
+                groupeManager = GroupeManager(courseId: objCourse.id!)
                 list = groupeManager.groupeList
                 afficherListe()
         }
@@ -122,7 +123,7 @@ struct GestionListeGroupeView: View {
             count += 1
             nom = newGroupeName + "(" + String(count) + ")"
         }
-        groupeManager.addGroupe(withName: nom, inCourse: objCourse.id)
+        groupeManager.addGroupe(withName: nom, inCourse: objCourse.id!)
         newGroupeName = ""
         list = groupeManager.groupeList
         afficherListe()

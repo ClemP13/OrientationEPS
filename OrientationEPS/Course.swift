@@ -7,6 +7,15 @@
 
 import Foundation
 
+class CourseActuelle : ObservableObject {
+    @Published var id : UUID?
+    @Published var nomCourse : String = ""
+    @Published var dateCreation : Date? = nil
+    @Published var tempsBonus : Int16 = 0
+    @Published var tempsMalus : Int16 = 0
+    
+}
+
 struct Course : Identifiable {
     var id = UUID()
     let nomCourse : String

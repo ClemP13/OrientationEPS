@@ -28,7 +28,7 @@ struct TempsAffichable {
         return tempsAffichable
     }
     
-    func TempsAvecBonusMalus (detail : Detail, course: Course) -> Int32 {
+    func TempsAvecBonusMalus (detail : Detail, course: CourseActuelle) -> Int32 {
         var temps = detail.temps
         let malus = Int32(detail.nbErreur * course.tempsMalus)
         let bonus = Int32(detail.nbValidation * course.tempsBonus)

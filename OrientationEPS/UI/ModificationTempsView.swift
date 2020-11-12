@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ModificationTempsView: View {
     let objGroupe : Groupe
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var detailManager : DetailManager
     @State var sheet = false
     @State var selectedParcoursModif: ParcoursModificationTemps?
@@ -50,7 +50,7 @@ struct ModificationTempsView: View {
         })
         .onAppear(){
             detailManager = DetailManager(groupe: objGroupe)
-            listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id, grId: objGroupe.id)
+            listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)
             listReal = detailManager.parcoursRealiseList
         }
         .navigationTitle("Modification de temps")
@@ -59,7 +59,7 @@ struct ModificationTempsView: View {
         for i in ind {
             detailManager.removeDetail(detail: listParcours[i].detail)
         }
-        listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id, grId: objGroupe.id)
+        listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)
         listReal = detailManager.parcoursRealiseList
         listNbValid = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbValid(parcoursRealiseList: listReal)
         listNbErreur = ErreurManager(listErr: listNbErreur, listValid: listNbValid).ArrayNbErreur(parcoursRealiseList: listReal)

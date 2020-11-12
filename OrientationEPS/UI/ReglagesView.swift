@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReglagesView: View {
     @State var ReprendreLaCourse: Bool
-    @State var objCourse: Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var groupeManager : GroupeManager
     @State var parcoursManager : ParcoursManager
     @State var nbParc : Int16 = 0
@@ -28,17 +28,17 @@ struct ReglagesView: View {
     
     
     var body: some View {
-        NavigationLink(destination: GeneralView(objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id), selectedTab: 2), tag: 1, selection: $action){}
-        NavigationLink(destination: GestionListeGroupeView(groupeManager: GroupeManager(courseId: objCourse.id), objCourse: objCourse), tag: 2, selection: $action){}
+        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2), tag: 1, selection: $action){}
+        NavigationLink(destination: GestionListeGroupeView(groupeManager: GroupeManager(courseId: objCourse.id!)), tag: 2, selection: $action){}
         Form{
             
             Section(header: Text("Créer des parcours")){
                 HStack{
-                    NavigationLink(destination: SheetMaquetteParcoursView(objCourse: objCourse, nbParc: $nbParc, list: $list, parcoursManager: ParcoursManager(courseId: objCourse.id), listeMaquette: MaquetteManager().MaquetteDistinctParcoursList)) {
+                    NavigationLink(destination: SheetMaquetteParcoursView(nbParc: $nbParc, list: $list, parcoursManager: ParcoursManager(courseId: objCourse.id!), listeMaquette: MaquetteManager().MaquetteDistinctParcoursList)) {
                         Text("Par import d'une maquette")
                     }
                 }
-                .sheet(isPresented: $sheet, content: { SheetMaquetteParcoursView(objCourse: objCourse, nbParc: $nbParc, list: $list, parcoursManager: ParcoursManager(courseId: objCourse.id), listeMaquette: MaquetteManager().MaquetteDistinctParcoursList)
+                .sheet(isPresented: $sheet, content: { SheetMaquetteParcoursView(nbParc: $nbParc, list: $list, parcoursManager: ParcoursManager(courseId: objCourse.id!), listeMaquette: MaquetteManager().MaquetteDistinctParcoursList)
                 })
                 
                 Text("Par création manuelle : ")
@@ -76,7 +76,7 @@ struct ReglagesView: View {
                 if count == 0 {
                     Text("Aucun parcours dans cette course. Cliquer sur le + orange pour ajouter un parcours")
                 }else{
-                    NavigationLink(destination: SheetSauvParcoursMaquetteView(courseId: objCourse.id)) {
+                    NavigationLink(destination: SheetSauvParcoursMaquetteView(courseId: objCourse.id!)) {
                         Text("Ajouter cette liste à mes maquettes")
                     }
                     List {
@@ -104,8 +104,8 @@ struct ReglagesView: View {
             Alert(title: Text("Liste vide"), message: Text("Ajouter au minimum un parcours à la liste, en appuyant sur le + orange"), dismissButton: .default(Text("Compris")))
         }
         .onAppear(perform: {
-            groupeManager = GroupeManager(courseId: objCourse.id)
-            parcoursManager = ParcoursManager(courseId: objCourse.id)
+            groupeManager = GroupeManager(courseId: objCourse.id!)
+            parcoursManager = ParcoursManager(courseId: objCourse.id!)
             list = parcoursManager.parcoursList
             nbParc = Int16(list.count)
         })
@@ -138,7 +138,7 @@ struct ReglagesView: View {
     func createNewParcours() {
         nbParc += 1
         if newParcoursName == "" {
-            parcoursManager.addParcours(courseId: objCourse.id, parcoursNum: nbParc, distance: 0)
+            parcoursManager.addParcours(courseId: objCourse.id!, parcoursNum: nbParc, distance: 0)
         }else{
             var nom : String = newParcoursName
             var count = 0
@@ -146,7 +146,7 @@ struct ReglagesView: View {
                 count += 1
                 nom = newParcoursName + "(" + String(count) + ")"
             }
-            let newParcours = Parcours(courseId: objCourse.id, parcoursNum: nbParc, parcoursNom: nom, distance: 0)
+            let newParcours = Parcours(courseId: objCourse.id!, parcoursNum: nbParc, parcoursNom: nom, distance: 0)
             parcoursManager.addParcoursAvecNom(parc: newParcours, distance: 0)
             newParcoursName = ""
         }
@@ -157,22 +157,3 @@ struct ReglagesView: View {
 
 
 
-struct labV : View{
-    var body: some View {
-        HStack{
-            Text("Bonus pour balise correcte")
-            Image(systemName:"checkmark")
-                .foregroundColor(.green)
-        }
-    }
-}
-
-struct labE : View{
-    var body: some View {
-        HStack{
-            Text("Malus pour balise fausse")
-            Image(systemName:"xmark")
-                .foregroundColor(.red)
-        }
-    }
-}

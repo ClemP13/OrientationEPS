@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SheetMaquetteGroupeView: View {
-    @State var objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @Binding var list: [Groupe]
     @State var maquetteManager = MaquetteManager()
     @State var groupeManager : GroupeManager
@@ -46,7 +46,7 @@ struct SheetMaquetteGroupeView: View {
                 
             }
         .onAppear(){
-            groupeManager = GroupeManager(courseId: objCourse.id)
+            groupeManager = GroupeManager(courseId: objCourse.id!)
             listeMaquette = maquetteManager.MaquetteDistinctGroupeList
         }
     }
@@ -59,7 +59,7 @@ struct SheetMaquetteGroupeView: View {
                 count += 1
                 nom = groupe.nomGroupe + "(" + String(count) + ")"
             }
-            let newGroupe = Groupe(courseId: objCourse.id, nomGroupe: nom)
+            let newGroupe = Groupe(courseId: objCourse.id!, nomGroupe: nom)
             groupeManager.addGroupeAvecNom(gr: newGroupe)
         }
         list = groupeManager.groupeList

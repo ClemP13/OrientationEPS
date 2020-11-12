@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct Settings: View {
-    @Binding var objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var groupeManager : GroupeManager
     @State private var action: Int? = 0
     @Binding var timerOn : Bool
@@ -42,14 +42,14 @@ struct Settings: View {
             Section(header: Text("Gestion de la course")){
                 List{
                 HStack{
-                    NavigationLink(destination: ReglagesView(ReprendreLaCourse: true, objCourse: objCourse, groupeManager: groupeManager, parcoursManager: ParcoursManager(courseId: objCourse.id)), label: {
+                    NavigationLink(destination: ReglagesView(ReprendreLaCourse: true, groupeManager: groupeManager, parcoursManager: ParcoursManager(courseId: objCourse.id!)).environmentObject(objCourse), label: {
                         Image(systemName: "map.fill")
                         Text("Parcours")
                     })
                     Spacer()
                 }
                 HStack{
-                    NavigationLink(destination: GestionListeGroupeView(groupeManager: groupeManager, objCourse: objCourse), label: {
+                    NavigationLink(destination: GestionListeGroupeView(groupeManager: groupeManager).environmentObject(objCourse), label: {
                         Image(systemName: "person.fill.badge.plus")
                         Text("Coureurs")
                     })
@@ -59,7 +59,7 @@ struct Settings: View {
             Section(header: Text("Carton de contrôle")){
                 List{
                     HStack{
-                        NavigationLink(destination: BonusMalusView(objCourse: $objCourse), label: {
+                        NavigationLink(destination: BonusMalusView(), label: {
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
                             Text("Bonus / Malus")
                         })
@@ -68,7 +68,7 @@ struct Settings: View {
             Section(header: Text("Outil"), footer: FooterChrono(timerOn: timerOn)){
                 List{
                 HStack{
-                    NavigationLink(destination: DepartsSimultanesView(objCourse: objCourse, groupeManager: groupeManager), label: {
+                    NavigationLink(destination: DepartsSimultanesView(groupeManager: groupeManager), label: {
                         Image(systemName: "flag.badge.ellipsis.fill")
                         Text("Départs simultanés")
                     })

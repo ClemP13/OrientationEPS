@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DepartsSimultanesView: View {
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var selectedParcoursIndexArray : [Int] = []
     @State var peutSauvegarder = false
     @State var groupeManager : GroupeManager
@@ -65,7 +65,7 @@ struct DepartsSimultanesView: View {
                 }
             }
         }.onAppear(){
-            groupeManager = GroupeManager(courseId: objCourse.id)
+            groupeManager = GroupeManager(courseId: objCourse.id!)
             for _ in (0 ..< groupeManager.groupeList.count) {
                 selectedParcoursIndexArray.append(0)
 
@@ -77,14 +77,14 @@ struct DepartsSimultanesView: View {
         }
             
             .navigationBarTitle(Text("Départs simultanés"), displayMode: .inline)
-        NavigationLink(destination: CestPartiView(objCourse: objCourse), tag: 1, selection: $action){}
+        NavigationLink(destination: CestPartiView().environmentObject(objCourse), tag: 1, selection: $action){}
     }
     func departColl(){
         for ind in (0 ..< groupeManager.groupeList.count) {
             var detailManager = DetailManager(groupe: groupeManager.groupeList[ind])
             let parcSel = selectedParcoursIndexArray[ind]
             if parcSel > 0 {
-                detailManager.depart(courseId: objCourse.id, groupeId: groupeManager.groupeList[ind].id, parcoursId: detailManager.ListeParcoursRestants()[parcSel - 1].id, nomGroupe: groupeManager.groupeList[ind].nomGroupe, nomParcours: detailManager.ListeParcoursRestants()[parcSel - 1].parcoursNom)
+                detailManager.depart(courseId: objCourse.id!, groupeId: groupeManager.groupeList[ind].id, parcoursId: detailManager.ListeParcoursRestants()[parcSel - 1].id, nomGroupe: groupeManager.groupeList[ind].nomGroupe, nomParcours: detailManager.ListeParcoursRestants()[parcSel - 1].parcoursNom)
             }
         }
         self.action = 1

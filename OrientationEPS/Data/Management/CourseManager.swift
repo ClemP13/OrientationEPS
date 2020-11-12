@@ -57,54 +57,36 @@ struct CourseManager {
         return newCourse
     }
     
-    mutating func removeCourse(course:Course) {
-        if let courseIndex = courseList.firstIndex(where: { (t) -> Bool in
-            t.id == course.id
-        }){
-            storage.removeCourse(course: courseList[courseIndex])
-            for parc in ParcoursManager(courseId: course.id).parcoursList {
+    mutating func removeCourse(courseId:UUID) {
+            storage.removeCourse(courseId: courseId)
+            for parc in ParcoursManager(courseId: courseId).parcoursList {
                 storage.removeParcours(parcours: parc)
             }
-            for group in GroupeManager(courseId: course.id).groupeList {
+            for group in GroupeManager(courseId: courseId).groupeList {
                 storage.removeGroupe(groupe: group)
             }
-            let allDetailDeLaCourse = storage.fetchDetailList(crsId: course.id)
+            let allDetailDeLaCourse = storage.fetchDetailList(crsId: courseId)
             for detail in allDetailDeLaCourse {
                 storage.removeDetail(detail: detail)
-            }
-        }
+            } 
         affListe()
     }
     
-    @discardableResult
-    mutating func updateNomCourse(course:Course, nouveauNom:String) -> Course {
-        let cr = course
-        let courseUp = Course(nomCourse: nouveauNom, dateCreation: cr.dateCreation, tempsBonus: cr.tempsBonus, tempsMalus: cr.tempsMalus)
-        storage.updateNomCourse(course: cr,nom: nouveauNom)
+    mutating func updateNomCourse(courseId:UUID, nouveauNom:String) {
+        storage.updateNomCourse(courseId: courseId,nom: nouveauNom)
         affListe()
-        return courseUp
     }
     
-    func updateMalus(course:Course, malus:Int16) -> Course {
-        
-        let courseUp = Course(id: course.id, nomCourse: course.nomCourse, dateCreation: course.dateCreation, tempsBonus: course.tempsBonus, tempsMalus: malus)
-        if let courseIndex = courseList.firstIndex(where: { (t) -> Bool in
-            t.id == course.id
-        }){
-            storage.updateMalus(course: courseList[courseIndex],nb: malus)
-        }
-        return courseUp
+    func updateMalus(courseId: UUID, malus:Int16) {
+            storage.updateMalus(courseId: courseId,nb: malus)
+        CourseActuelle().tempsMalus = malus
+
     }
     
     
-    func updateBonus(course:Course, bonus:Int16) -> Course {
-        let courseUp = Course(id: course.id, nomCourse: course.nomCourse,  dateCreation: course.dateCreation, tempsBonus: bonus, tempsMalus: course.tempsMalus)
-        if let courseIndex = courseList.firstIndex(where: { (t) -> Bool in
-            t.id == course.id
-        }){
-            storage.updateBonus(course: courseList[courseIndex],nb: bonus)
-        }
-        return courseUp
+    func updateBonus(courseId:UUID, bonus:Int16) {
+        storage.updateBonus(courseId: courseId,nb: bonus)
+        CourseActuelle().tempsBonus = bonus
     }
     
     func indexInListBonusMalus(tempsBonusMalus: Int) -> Int{

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SheetMaquetteParcoursView: View {
-    @State var objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @Binding var nbParc : Int16
     @Binding var list: [Parcours]
     @State var maquetteManager = MaquetteManager()
@@ -48,7 +48,7 @@ struct SheetMaquetteParcoursView: View {
                 
             }
         .onAppear(){
-            parcoursManager = ParcoursManager(courseId: objCourse.id)
+            parcoursManager = ParcoursManager(courseId: objCourse.id!)
             listeMaquette = maquetteManager.MaquetteDistinctParcoursList
         }
     }
@@ -62,7 +62,7 @@ struct SheetMaquetteParcoursView: View {
                 nom = parc.nomParcours + "(" + String(count) + ")"
             }
             nbParc = Int16(parcoursManager.parcoursList.count + 1)
-            let newParc = Parcours(courseId: objCourse.id, parcoursNum: nbParc, parcoursNom: nom, distance: parc.distance)
+            let newParc = Parcours(courseId: objCourse.id!, parcoursNum: nbParc, parcoursNom: nom, distance: parc.distance)
             parcoursManager.addParcoursAvecNom(parc: newParc, distance: parc.distance)
             
         }

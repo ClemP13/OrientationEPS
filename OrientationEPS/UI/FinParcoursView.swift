@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FinParcoursView: View {
-    let objCourse: Course
+    @EnvironmentObject var objCourse : CourseActuelle
     let objGroupe: Groupe
     @EnvironmentObject var stopwatch : Stopwatch
     @State var arriveeManager = ArriveeManager()
@@ -20,7 +20,7 @@ struct FinParcoursView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 HStack{
-                    NavigationLink(destination: GeneralView(objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id), selectedTab: 2).environmentObject(stopwatch),
+                    NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(stopwatch),
                                    label: {
                                     HStack {
                                         Image(systemName: "arrow.left")

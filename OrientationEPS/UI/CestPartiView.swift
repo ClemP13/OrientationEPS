@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CestPartiView: View {
-    let objCourse: Course
     @EnvironmentObject var stopwatch : Stopwatch
-    
+    @EnvironmentObject var objCourse : CourseActuelle
     @State private var tempsPasse = 0
     let timerCP = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var action: Int? = 0
@@ -55,7 +54,7 @@ struct CestPartiView: View {
                 Spacer()
             }
             .foregroundColor(.white)
-            NavigationLink(destination: GeneralView(objCourse: objCourse, groupeManager: GroupeManager(courseId: objCourse.id), selectedTab: 2), tag: 1, selection: $action){}
+            NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2), tag: 1, selection: $action){}
         }.navigationBarHidden(true)
     }
 }

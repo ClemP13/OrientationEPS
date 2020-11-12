@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GroupeGeneralView: View {
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var groupeManager : GroupeManager
     var flexibleLayout = [GridItem(.flexible()),GridItem(.flexible()), GridItem(.flexible())]
     
@@ -21,13 +21,13 @@ struct GroupeGeneralView: View {
             LazyVGrid(columns: flexibleLayout){
                 
                 ForEach(0 ..< groupeManager.groupeList.count, id:\.self) { gr in
-                    BtComponentView(objGroupe: groupeManager.groupeList[gr], objCourse: objCourse, num: gr)
+                    BtComponentView(objGroupe: groupeManager.groupeList[gr], num: gr)
                 }
                 
             }.padding()
             Spacer()
                 .onAppear(perform: {
-                    groupeManager = GroupeManager(courseId: objCourse.id)
+                    groupeManager = GroupeManager(courseId: objCourse.id!)
                 })
         }.navigationBarHidden(true)
     }

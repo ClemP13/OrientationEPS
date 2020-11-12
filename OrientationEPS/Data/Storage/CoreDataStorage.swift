@@ -50,28 +50,28 @@ class OriEPS {
             saveData()
     }
     
-    func removeCourse(course:Course){
-        if let existingCourse = fetchCDCourse(withId: course.id) {
+    func removeCourse(courseId:UUID){
+        if let existingCourse = fetchCDCourse(withId: courseId) {
             context.delete(existingCourse)
             saveData()
         }
     }
     
-    func updateNomCourse(course:Course, nom:String){
-        if let existingCourse = fetchCDCourse(withId: course.id) {
+    func updateNomCourse(courseId:UUID, nom:String){
+        if let existingCourse = fetchCDCourse(withId: courseId) {
             existingCourse.nomCourse = nom
             saveData()
         }
     }
 
-    func updateMalus(course:Course, nb:Int16){
-        if let existingCourse = fetchCDCourse(withId: course.id) {
+    func updateMalus(courseId:UUID, nb:Int16){
+        if let existingCourse = fetchCDCourse(withId: courseId) {
             existingCourse.tempsMalus = nb
             saveData()
         }
     }
-    func updateBonus(course:Course, nb:Int16){
-        if let existingCourse = fetchCDCourse(withId: course.id) {
+    func updateBonus(courseId:UUID, nb:Int16){
+        if let existingCourse = fetchCDCourse(withId: courseId) {
             existingCourse.tempsBonus = nb
             saveData()
         }

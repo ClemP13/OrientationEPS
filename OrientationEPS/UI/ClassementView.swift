@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ClassementView: View {
     let courseId : UUID
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var classementManager = ClassementManager()
     @State var listeClassement : [DetailClassement] = []
     @State var listeParcours : [Parcours] = []
@@ -64,7 +64,7 @@ struct ClassementView: View {
                     ForEach(0 ..< listeClassement.count, id: \.self) { gr in
                         let place = funcPlace(gr: gr)
                         let objGroupe = listeClassement[gr].groupe
-                        NavigationLink( destination: GroupeDetailsView(objGroupe: objGroupe, objCourse: objCourse, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objCourse.id)),
+                        NavigationLink( destination: GroupeDetailsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objCourse.id!)),
                             label: {
                                 HStack{
                                     Image(systemName: "\(place).circle")
@@ -118,7 +118,7 @@ struct ClassementView: View {
                 choixClassement = ["Nombre de parcours réalisés","Nombre de balises fausses","Nombre de balises validées","RK moyenne","Temps moyen","Temps total"]
             }
             listeParcours = ParcoursManager(courseId: courseId).parcoursList
-            listeClassement = classementManager.afficherClassement(objCourse: objCourse, type: selectedIndex, parcours: selectedIndexParcours)
+            listeClassement = classementManager.afficherClassement(course: objCourse, type: selectedIndex, parcours: selectedIndexParcours)
         })
     }
     func funcPlace(gr: Int) -> Int {

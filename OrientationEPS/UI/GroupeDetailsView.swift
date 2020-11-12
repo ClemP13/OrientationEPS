@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupeDetailsView: View {
     let objGroupe : Groupe
-    let objCourse : Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var detailManager : DetailManager
     @State var parcoursManager : ParcoursManager
     @State var enCourse = false
@@ -97,7 +97,7 @@ struct GroupeDetailsView: View {
                 if listReal.count > 0{
                     List {
                         ForEach(0 ..< listReal.count, id:\.self){ index in
-                            ElementList(parcoursManager: parcoursManager, listReal: listReal, listNbValid: listNbValid, listNbErreur: listNbErreur, index: index, objCourse: objCourse, objGroupe: objGroupe)
+                            ElementList(parcoursManager: parcoursManager, listReal: listReal, listNbValid: listNbValid, listNbErreur: listNbErreur, index: index, objGroupe: objGroupe).environmentObject(objCourse)
                         }
                         HStack{
                             VStack{
@@ -163,10 +163,10 @@ struct GroupeDetailsView: View {
             }
             toutLesParcoursSontTermines = detailManager.aTermine(groupeId: objGroupe.id, suiviManager: SuiviManager(courseId: objGroupe.courseId))
         })
-        NavigationLink(destination: CestPartiView(objCourse: objCourse), tag: 1, selection: $action){}
-        NavigationLink(destination: FinParcoursView(objCourse: objCourse, objGroupe: objGroupe), tag: 2, selection: $action){}
-        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id), erreurManager: ErreurManager(listErr: listNbErreur, listValid: listNbValid),err: listNbErreur, valid: listNbValid, listReal: listReal), tag: 3, selection: $action){}
-        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, objCourse: objCourse, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id, grId: objGroupe.id), listReal: $listReal, listNbValid: $listNbValid, listNbErreur : $listNbErreur), tag: 4, selection: $action){}
+        NavigationLink(destination: CestPartiView(), tag: 1, selection: $action){}
+        NavigationLink(destination: FinParcoursView(objGroupe: objGroupe).environmentObject(objCourse), tag: 2, selection: $action){}
+        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id!), erreurManager: ErreurManager(listErr: listNbErreur, listValid: listNbValid),err: listNbErreur, valid: listNbValid, listReal: listReal), tag: 3, selection: $action){}
+        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id), listReal: $listReal, listNbValid: $listNbValid, listNbErreur : $listNbErreur), tag: 4, selection: $action){}
     }
     
     func depart() {
@@ -182,7 +182,7 @@ struct GroupeDetailsView: View {
         
     }
     func funcPlace(parcours: Int) -> Int {
-        let classement = ClassementManager().afficherClassement(objCourse: objCourse, type: 4, parcours: parcours)
+        let classement = ClassementManager().afficherClassement(course: objCourse, type: 4, parcours: parcours)
         let ind = classement.firstIndex(where: { $0.groupe.id == objGroupe.id }) ?? classement.count
         let tpsMoy = classement[ind].tempsMoy
         var numPlac = 0
@@ -213,7 +213,7 @@ struct ElementList: View {
     @State var listNbValid : [Int16]
     @State var listNbErreur : [Int16]
     @State var index : Int
-    @State var objCourse: Course
+    @EnvironmentObject var objCourse : CourseActuelle
     @State var objGroupe: Groupe
     
     var body: some View {
@@ -260,7 +260,7 @@ struct ElementList: View {
     }
 }
     func funcPlace(parcours: Int) -> Int {
-        let classement = ClassementManager().afficherClassement(objCourse: objCourse, type: 4, parcours: parcours)
+        let classement = ClassementManager().afficherClassement(course: objCourse, type: 4, parcours: parcours)
         let ind = classement.firstIndex(where: { $0.groupe.id == objGroupe.id }) ?? classement.count
         let tpsMoy = classement[ind].tempsMoy
         var numPlac = 0

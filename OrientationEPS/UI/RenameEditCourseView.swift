@@ -72,8 +72,8 @@ struct RenameEditCourseView: View {
             count += 1
             nom = nouveauNom + "(" + String(count) + ")"
         }
-
-        courseManager.updateNomCourse(course: objCourse, nouveauNom: nom)
+        CourseActuelle().nomCourse = nom
+        courseManager.updateNomCourse(courseId: objCourse.id, nouveauNom: nom)
         list = courseManager.recupListe()
         self.presentationMode.wrappedValue.dismiss()
     }
