@@ -26,7 +26,6 @@
 		5CA29D2E255C296A00329C7C /* ClassementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D13255C296A00329C7C /* ClassementView.swift */; };
 		5CA29D2F255C296A00329C7C /* GroupeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D14255C296A00329C7C /* GroupeDetailsView.swift */; };
 		5CA29D30255C296A00329C7C /* GroupeGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D15255C296A00329C7C /* GroupeGeneralView.swift */; };
-		5CA29D31255C296A00329C7C /* Suivi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D16255C296A00329C7C /* Suivi.swift */; };
 		5CA29D32255C296A00329C7C /* SheetMaquetteGroupeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D17255C296A00329C7C /* SheetMaquetteGroupeView.swift */; };
 		5CA29D33255C296A00329C7C /* CourseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D18255C296A00329C7C /* CourseListView.swift */; };
 		5CA29D34255C296A00329C7C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D19255C296A00329C7C /* Settings.swift */; };
@@ -78,7 +77,6 @@
 		5CA29D13255C296A00329C7C /* ClassementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassementView.swift; sourceTree = "<group>"; };
 		5CA29D14255C296A00329C7C /* GroupeDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupeDetailsView.swift; sourceTree = "<group>"; };
 		5CA29D15255C296A00329C7C /* GroupeGeneralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupeGeneralView.swift; sourceTree = "<group>"; };
-		5CA29D16255C296A00329C7C /* Suivi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Suivi.swift; sourceTree = "<group>"; };
 		5CA29D17255C296A00329C7C /* SheetMaquetteGroupeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetMaquetteGroupeView.swift; sourceTree = "<group>"; };
 		5CA29D18255C296A00329C7C /* CourseListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListView.swift; sourceTree = "<group>"; };
 		5CA29D19255C296A00329C7C /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -187,7 +185,6 @@
 				5CA29D12255C296A00329C7C /* SheetSauvGroupeMaquetteView.swift */,
 				5CA29D07255C296A00329C7C /* SheetSauvModifTempsView.swift */,
 				5CA29D1B255C296A00329C7C /* SheetSauvParcoursMaquetteView.swift */,
-				5CA29D16255C296A00329C7C /* Suivi.swift */,
 				5CA29D1F255C296A00329C7C /* SuiviView.swift */,
 			);
 			path = UI;
@@ -322,7 +319,6 @@
 				5CA29D38255C296A00329C7C /* CestPartiView.swift in Sources */,
 				5CA29D61255C299200329C7C /* Course.swift in Sources */,
 				5CA29D5F255C299200329C7C /* CoreDataStorage.swift in Sources */,
-				5CA29D31255C296A00329C7C /* Suivi.swift in Sources */,
 				5CA29D33255C296A00329C7C /* CourseListView.swift in Sources */,
 				5CA29D54255C299200329C7C /* ParcoursManager.swift in Sources */,
 				5CA29D32255C296A00329C7C /* SheetMaquetteGroupeView.swift in Sources */,

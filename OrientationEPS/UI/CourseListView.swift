@@ -13,9 +13,9 @@ struct CourseListView: View {
     @State var list : [Course] = []
     @State var selectedCourse: Course?
     @State private var action : Int? = 0
-    let stopwatch = Stopwatch()
     @ObservedObject var objCourse = CourseActuelle()
     @State var courseId : UUID = UUID()
+    @State var navVisible = false
     
     init() {
         objCourse.id = UUID()
@@ -24,30 +24,21 @@ struct CourseListView: View {
         NavigationView{
             VStack{
                 NavigationLink(destination: getDestination().environmentObject(objCourse), tag: 1, selection: $action){}
-                HStack {
-                    Text("Orientation")
-                        .fontWeight(.heavy)
-                        .foregroundColor(Color.orange)
-                    Text("EPS")
-                        .fontWeight(.heavy)
-                        .foregroundColor(Color("ColorDarkLight"))
-                }.font(.title)
-                .padding()
                 HStack{
-                    
                     Link(destination: URL(string: "https://www.youtube.com/channel/UCNdX88jqrWL_SR-4qLRiLPQ")!) {
                         Image(systemName: "video.bubble.left.fill")
                         Text("Explications vidéo")
                         Image(systemName: "video.bubble.left.fill")
                     }
-                    .foregroundColor(Color("ColorDarkLight"))
+                    .foregroundColor(.white)
                     .padding()
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(lineWidth: 2)
-                            .foregroundColor(.orange)
+                            .foregroundColor(.white)
                     )
                 }.padding()
+                
                 
                 Form{
                     Section(footer: FooterSupp(nb: list.count, str: "renommer")){
@@ -76,38 +67,52 @@ struct CourseListView: View {
                         }else {
                             ForEach(0 ..< count, id: \.self){ index in
                                 HStack {
-                                            Image(systemName: "pencil.circle.fill")
-                                                .font(.title)
-                                                .onTapGesture {
-                                                    self.selectedCourse = list[index]
-                                                }
-                                            ListRow(objCourse: list[index])
-                                            Spacer()
-                                    Image(systemName: "chevron.right.circle.fill")
-                                        .font(.title)
-                                        .onTapGesture {
+                                    NavigationLink(destination: getDestination().environmentObject(objCourse).onAppear(){
                                         objCourse.id = list[index].id
                                             objCourse.nomCourse = list[index].nomCourse
                                             objCourse.dateCreation = list[index].dateCreation
                                             objCourse.tempsBonus = list[index].tempsBonus
                                             objCourse.tempsMalus = list[index].tempsMalus
-                                            print(objCourse.id!)
-                                          self.action = 1
-                                        }
+                                    }
+                                                   , label: {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .font(.title)
+                                            .onTapGesture {
+                                                self.selectedCourse = list[index]
+                                            }
+                                        ListRow(objCourse: list[index])
+                                    })
                                 }
                             }.onDelete(perform: { indexSet in
                                 DeleteCourse(ind: indexSet)
                             })
                         }
                     }}
-                }.sheet(item: self.$selectedCourse, content: { select in
+                }
+                .sheet(item: self.$selectedCourse, content: { select in
                     RenameEditCourseView(objCourse : select, list: $list)
                     
                 })
             
         }
+            .background(Color.orange)
+            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            HStack {
+                                Text("Orientation")
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.orange)
+                                Text("EPS")
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color("ColorDarkLight"))
+                            }.font(.title)
+                            .padding()
+                            }}
+          
             .onAppear(){
-                print(objCourse.id!)
+                navVisible = true
                 list = courseManager.recupListe()
                 if !UserDefaults.standard.bool(forKey: "premièreOuverture"){
                     UserDefaults.standard.setValue(true, forKey: "premièreOuverture")
@@ -115,18 +120,16 @@ struct CourseListView: View {
                 }
                 
             }
-            .navigationBarHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
-        }.navigationBarHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+            
+        }
         
     }
     func getDestination() -> AnyView {
 
         if GroupeManager(courseId: objCourse.id!).groupeList.count > 0 && ParcoursManager(courseId: objCourse.id!).parcoursList.count > 0 {
-               return AnyView(GeneralView(groupeManager: GroupeManager(courseId: courseId)).environmentObject(stopwatch))
+               return AnyView(GeneralView(groupeManager: GroupeManager(courseId: courseId)))
             }else{
-                return AnyView(ReglagesView(ReprendreLaCourse: false, groupeManager: GroupeManager(courseId: objCourse.id!), parcoursManager: ParcoursManager(courseId: objCourse.id!)).environmentObject(stopwatch))
+                return AnyView(ReglagesView(ReprendreLaCourse: false, groupeManager: GroupeManager(courseId: objCourse.id!), parcoursManager: ParcoursManager(courseId: objCourse.id!)))
                 
             }
         }

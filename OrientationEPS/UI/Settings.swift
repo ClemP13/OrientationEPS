@@ -15,7 +15,6 @@ struct Settings: View {
     @Binding var timerOn : Bool
     @State var selectedIndex = 0
     @State var timerIsRunning : Bool = false
-    @EnvironmentObject var stopwatch : Stopwatch
     
     
     var body: some View {
@@ -153,8 +152,8 @@ struct Settings: View {
                 }
                 
             }
-            .onAppear(){
-                timerOn = UserDefaults.standard.bool(forKey: "timerOn")
+         /*   .onAppear(){
+                 timerOn = UserDefaults.standard.bool(forKey: "timerOn")
                 if !self.stopwatch.timerIsRunning{
                     if  self.stopwatch.duree == 0 {
                                             
@@ -171,8 +170,8 @@ struct Settings: View {
                 selectedIndex = self.stopwatch.duree/60
                 print(selectedIndex)
                 }
-                }}
-        }.navigationBarHidden(true)
+                }}*/
+        }
     }
 }
 

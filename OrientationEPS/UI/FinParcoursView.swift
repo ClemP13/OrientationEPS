@@ -10,7 +10,6 @@ import SwiftUI
 struct FinParcoursView: View {
     @EnvironmentObject var objCourse : CourseActuelle
     let objGroupe: Groupe
-    @EnvironmentObject var stopwatch : Stopwatch
     @State var arriveeManager = ArriveeManager()
     @State private var animationAmount: CGFloat = 1
     
@@ -20,7 +19,7 @@ struct FinParcoursView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 HStack{
-                    NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(stopwatch),
+                    NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(objCourse),
                                    label: {
                                     HStack {
                                         Image(systemName: "arrow.left")

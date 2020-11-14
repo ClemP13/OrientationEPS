@@ -16,7 +16,6 @@ struct RenameEditCourseView: View {
     @State var ancienNom = ""
     
     var body: some View {
-        NavigationView {
             VStack{
                 Text("\(objCourse.nomCourse)")
                     .multilineTextAlignment(.center)
@@ -63,7 +62,7 @@ struct RenameEditCourseView: View {
                         Image(systemName: "xmark")
                     }))
             }
-        }
+        
     }
     func renameCourse() {
         var nom = nouveauNom

@@ -14,7 +14,6 @@ struct ModificationTempsView: View {
     @State var sheet = false
     @State var selectedParcoursModif: ParcoursModificationTemps?
     @State var listParcours : [ParcoursModificationTemps]
-    @Binding var listReal : [Detail]
     @EnvironmentObject var listActuelle : ListActuelle
     
     var body: some View {
@@ -45,12 +44,12 @@ struct ModificationTempsView: View {
                 
             }}
         Text("").hidden().sheet(item: self.$selectedParcoursModif, content: { sel in
-            SheetSauvModifTempsView(parcoursModif: sel, objGroupe: objGroupe, list: $listParcours, listReal: $listReal, detailManager : DetailManager(groupe: objGroupe))
+            SheetSauvModifTempsView(parcoursModif: sel, objGroupe: objGroupe, list: $listParcours, detailManager : DetailManager(groupe: objGroupe))
         })
         .onAppear(){
             detailManager = DetailManager(groupe: objGroupe)
             listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)
-            listReal = detailManager.parcoursRealiseList
+            listActuelle.listReal = detailManager.actuReaList()
         }
         .navigationTitle("Modification de temps")
     }
@@ -59,9 +58,10 @@ struct ModificationTempsView: View {
             detailManager.removeDetail(detail: listParcours[i].detail)
         }
         listParcours = ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)
-        listReal = detailManager.parcoursRealiseList
-        errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
-        errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
+        print(listActuelle.listReal)
+        listActuelle.listReal = detailManager.actuReaList()
+        listActuelle.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
+        listActuelle.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
     }
 }
 

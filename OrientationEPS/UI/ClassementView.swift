@@ -17,6 +17,7 @@ struct ClassementView: View {
     let data = [\DetailClassement.nbParcoursRealises,\DetailClassement.nbErreur,\DetailClassement.nbValid,\DetailClassement.rkMoyen,\DetailClassement.tempsMoy,\DetailClassement.tempsTotal]
     @State var selectedIndex = UserDefaults.standard.integer(forKey: "indexClassement")
     @State var selectedIndexParcours = UserDefaults.standard.integer(forKey: "parcoursClassement")
+    let listActuelle = ListActuelle()
     
     var body: some View {
         Form{
@@ -64,7 +65,7 @@ struct ClassementView: View {
                     ForEach(0 ..< listeClassement.count, id: \.self) { gr in
                         let place = funcPlace(gr: gr)
                         let objGroupe = listeClassement[gr].groupe
-                        NavigationLink( destination: GroupeDetailsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objCourse.id!)),
+                        NavigationLink( destination: GroupeDetailsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), parcoursManager: ParcoursManager(courseId: objCourse.id!)).environmentObject(objCourse).environmentObject(listActuelle),
                             label: {
                                 HStack{
                                     Image(systemName: "\(place).circle")
@@ -109,7 +110,6 @@ struct ClassementView: View {
                 }
             }
         }
-        .navigationBarHidden(true)
         .onAppear(perform: {
             
             if selectedIndexParcours != 0 {

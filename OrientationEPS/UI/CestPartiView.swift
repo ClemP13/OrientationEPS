@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CestPartiView: View {
-    @EnvironmentObject var stopwatch : Stopwatch
     @EnvironmentObject var objCourse : CourseActuelle
     @State private var tempsPasse = 0
     let timerCP = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

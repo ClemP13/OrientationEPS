@@ -22,14 +22,12 @@ struct ReglagesView: View {
     @State var showingAlert2 = false
     @State var newParcoursName: String = ""
     @State private var action: Int? = 0
-
-    @EnvironmentObject var stopwatch : Stopwatch
     
     
     
     var body: some View {
-        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2), tag: 1, selection: $action){}
-        NavigationLink(destination: GestionListeGroupeView(groupeManager: GroupeManager(courseId: objCourse.id!)), tag: 2, selection: $action){}
+        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(objCourse), tag: 1, selection: $action){}
+        NavigationLink(destination: GestionListeGroupeView(groupeManager: GroupeManager(courseId: objCourse.id!)).environmentObject(objCourse), tag: 2, selection: $action){}
         Form{
             
             Section(header: Text("Créer des parcours")){

@@ -17,7 +17,6 @@ struct GroupeDetailsView: View {
     @State var selectedParcoursIndex : Int = 0
     @State var toutLesParcoursSontTermines = false
     @State private var action: Int? = 0
-    @State var listReal : [Detail] = []
     @EnvironmentObject var listActuelle : ListActuelle
     
     
@@ -93,12 +92,11 @@ struct GroupeDetailsView: View {
                 Text("Tous les parcours ont été réalisés")
             }
             Section(header: Header1()){
-                if listReal.count > 0{
+                if listActuelle.listReal.count > 0{
                     List {
-                        ForEach(0 ..< listReal.count, id:\.self){ index in
-                            ElementList(parcoursManager: parcoursManager, listReal: listReal, index: index, objGroupe: objGroupe)
+                        ForEach(0 ..< listActuelle.listReal.count, id:\.self){ index in
+                            ElementList(parcoursManager: parcoursManager, listActuelle: listActuelle, index: index, objGroupe: objGroupe)
                                 .environmentObject(objCourse)
-                                .environmentObject(listActuelle)
                         }
                         HStack{
                             VStack{
@@ -148,9 +146,9 @@ struct GroupeDetailsView: View {
         .onAppear(perform: {
             parcoursManager = ParcoursManager(courseId: objGroupe.courseId)
             detailManager = DetailManager(groupe: objGroupe)
-            listReal = detailManager.parcoursRealiseList
-            errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
-            errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
+            listActuelle.listReal = detailManager.parcoursRealiseList
+            listActuelle.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
+            listActuelle.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
             listeParcoursRestants = detailManager.ListeParcoursRestants()
             if detailManager.enCourseList.count > 0{
                 let indProv = detailManager.ListeParcoursRestants().firstIndex(where: { $0.id == detailManager.enCourseList[0].parcoursId }) ?? -1
@@ -161,8 +159,8 @@ struct GroupeDetailsView: View {
         })
         NavigationLink(destination: CestPartiView(), tag: 1, selection: $action){}
         NavigationLink(destination: FinParcoursView(objGroupe: objGroupe).environmentObject(objCourse), tag: 2, selection: $action){}
-        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id!), erreurManager: ErreurManager(), listReal: listReal).environmentObject(listActuelle), tag: 3, selection: $action){}
-        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id), listReal: $listReal).environmentObject(listActuelle), tag: 4, selection: $action){}
+        NavigationLink(destination: ErreursView(objGroupe: objGroupe, parcoursManager: ParcoursManager(courseId: objCourse.id!)).environmentObject(listActuelle).environmentObject(objCourse), tag: 3, selection: $action){}
+        NavigationLink(destination: ModificationTempsView(objGroupe: objGroupe, detailManager: DetailManager(groupe: objGroupe), listParcours: ModificationTempsManager().getModificationTempsList(crsId: objCourse.id!, grId: objGroupe.id)).environmentObject(listActuelle).environmentObject(objCourse), tag: 4, selection: $action){}
     }
     
     func depart() {
@@ -205,55 +203,54 @@ struct Header1: View {
 
 struct ElementList: View {
     @State var parcoursManager : ParcoursManager
-    @State var listReal : [Detail]
-    @EnvironmentObject var listActuelle : ListActuelle
+    @State var listActuelle : ListActuelle
     @State var index : Int
     @EnvironmentObject var objCourse : CourseActuelle
     @State var objGroupe: Groupe
     
     var body: some View {
-    HStack{
-        VStack{
-            HStack{
-                Text("\(listReal[index].nomParcours)")
-                Spacer()
-            }
-            let indParc = (parcoursManager.parcoursList.firstIndex(where: { $0.id == listReal[index].parcoursId }) ?? 0) + 1
-            let place = funcPlace(parcours: indParc)
-            HStack{
-                Text("Classement :").foregroundColor(.gray)
-                Image(systemName: "\(place).circle").foregroundColor(.gray)
-                if place < 4{
-                    let color = [Color.yellow, Color.gray, Color.orange]
-                    Image(systemName: "bolt.heart.fill")
-                        .foregroundColor(color[place-1])
-                }
-                Spacer()
-                
-            }.font(.subheadline)
-        }
-        Spacer()
-        VStack{
-            HStack{
-                Spacer()
-                Text("\(TempsAffichable().secondsToMinutesSeconds(temps: TempsAffichable().TempsAvecBonusMalus(detail: listReal[index], course: objCourse)))")}
-            if errValList.arrayValid[index] > 0 || errValList.arrayErr[index] > 0{
+        HStack{
+            VStack{
                 HStack{
+                    Text("\(listActuelle.listReal[index].nomParcours)")
                     Spacer()
-                    if errValList.arrayValid[index] > 0{
-                            Text("\(errValList.arrayValid[index])").foregroundColor(.green)
-                            Image(systemName: "checkmark").foregroundColor(.green)
-                        }
-                    if errValList.arrayErr[index] > 0{
-                            Text("\(errValList.arrayErr[index])").foregroundColor(.red)
-                            Image(systemName: "xmark").foregroundColor(.red)
-                        }
+                }
+                let indParc = (parcoursManager.parcoursList.firstIndex(where: { $0.id == listActuelle.listReal[index].parcoursId }) ?? 0) + 1
+                let place = funcPlace(parcours: indParc)
+                HStack{
+                    Text("Classement :").foregroundColor(.gray)
+                    Image(systemName: "\(place).circle").foregroundColor(.gray)
+                    if place < 4{
+                        let color = [Color.yellow, Color.gray, Color.orange]
+                        Image(systemName: "bolt.heart.fill")
+                            .foregroundColor(color[place-1])
+                    }
+                    Spacer()
+                    
                 }.font(.subheadline)
             }
-            
+            Spacer()
+            VStack{
+                HStack{
+                    Spacer()
+                    Text("\(TempsAffichable().secondsToMinutesSeconds(temps: TempsAffichable().TempsAvecBonusMalus(detail: listActuelle.listReal[index], course: objCourse)))")}
+                if listActuelle.arrayValid[index] > 0 || listActuelle.arrayErr[index] > 0{
+                    HStack{
+                        Spacer()
+                        if listActuelle.arrayValid[index] > 0{
+                            Text("\(listActuelle.arrayValid[index])").foregroundColor(.green)
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                        }
+                        if listActuelle.arrayErr[index] > 0{
+                            Text("\(listActuelle.arrayErr[index])").foregroundColor(.red)
+                            Image(systemName: "xmark").foregroundColor(.red)
+                        }
+                    }.font(.subheadline)
+                }
+                
+            }
         }
     }
-}
     func funcPlace(parcours: Int) -> Int {
         let classement = ClassementManager().afficherClassement(course: objCourse, type: 4, parcours: parcours)
         let ind = classement.firstIndex(where: { $0.groupe.id == objGroupe.id }) ?? classement.count

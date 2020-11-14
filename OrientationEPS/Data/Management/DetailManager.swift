@@ -32,6 +32,20 @@ struct DetailManager {
         allParcoursDeLaCourse = storage.fetchParcoursList(crsId: groupe.courseId)
     }
     
+    func actuReaList() -> [Detail]{
+        let list = storage.fetchRealise(grId: groupe.id).sorted{
+            switch ($0.nomParcours.last!.isNumber, $1.nomParcours.last!.isNumber) {
+            case (true, false):
+                return false
+            case (false, true):
+                return true
+            default:
+                return $0.nomParcours < $1.nomParcours
+            }
+        }
+        return list
+    }
+    
     @discardableResult
     mutating func depart(courseId:UUID, groupeId: UUID, parcoursId: UUID, nomGroupe: String, nomParcours: String) -> Detail {
         let depart: Date = Date()

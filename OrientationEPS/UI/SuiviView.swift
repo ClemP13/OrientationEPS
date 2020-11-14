@@ -14,6 +14,7 @@ struct SuiviView: View {
     @State var groupeAyantTermine: [Groupe] = []
     @State private var action: Int? = 0
     @State var newDate = Date()
+    let listActuelle = ListActuelle()
     let timer2 = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     let timer3 = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
@@ -25,12 +26,12 @@ struct SuiviView: View {
                             List{
                             ForEach(groupeEnCourse){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr.groupe, detailManager: DetailManager(groupe: gr.groupe), parcoursManager: ParcoursManager(courseId: objCourse.id!), listeParcoursRestants: DetailManager(groupe: gr.groupe).ListeParcoursRestants(), listReal: []),
+                                    destination: GroupeDetailsView(objGroupe: gr.groupe, detailManager: DetailManager(groupe: gr.groupe), parcoursManager: ParcoursManager(courseId: objCourse.id!), listeParcoursRestants: DetailManager(groupe: gr.groupe).ListeParcoursRestants()).environmentObject(objCourse).environmentObject(listActuelle),
                                     label: {
                                         HStack{
                                             Text(gr.groupe.nomGroupe)
                                             Spacer()
-                                            Text(gr.detail.nomParcours)
+                                            Text(gr.detail.nomParcours).italic()
                                             Image(systemName: "arrow.right")
                                             Text(TempsAffichable().secondsToMinutesSeconds(temps: gr.temps))
                                         }
@@ -50,7 +51,7 @@ struct SuiviView: View {
                         if groupeEnAttente.count > 0{
                             ForEach(groupeEnAttente){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr,detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []).environmentObject(objCourse),
+                                    destination: GroupeDetailsView(objGroupe: gr,detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants()).environmentObject(objCourse).environmentObject(listActuelle)  ,
                                     label: {
                                         HStack{
                                             Text(gr.nomGroupe)
@@ -69,7 +70,7 @@ struct SuiviView: View {
                         if groupeAyantTermine.count > 0{
                             ForEach(groupeAyantTermine){ gr in
                                 NavigationLink(
-                                    destination: GroupeDetailsView(objGroupe: gr, detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants(), listReal: []).environmentObject(objCourse)   ,
+                                    destination: GroupeDetailsView(objGroupe: gr, detailManager: DetailManager(groupe: gr), parcoursManager: ParcoursManager(courseId: gr.courseId), listeParcoursRestants: DetailManager(groupe: gr).ListeParcoursRestants()).environmentObject(objCourse).environmentObject(listActuelle)   ,
                                     label: {
                                         HStack{
                                             Text(gr.nomGroupe)
@@ -87,7 +88,6 @@ struct SuiviView: View {
                     }
                 }
         
-                .navigationBarHidden(true)
                 .onAppear(perform:{
                     suiviManager = SuiviManager(courseId: objCourse.id!)
                     groupeEnCourse = suiviManager.groupeEnCourseList()

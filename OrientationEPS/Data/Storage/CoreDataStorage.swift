@@ -373,7 +373,6 @@ class OriEPS {
         }
     }
     
-    
     private func fetchCDDetail(withId detailId:UUID) -> CDDetail? {
         let fetchRequest = NSFetchRequest<CDDetail>(entityName: "CDDetail")
         fetchRequest.predicate = NSPredicate(format: "id == %@", detailId as CVarArg)

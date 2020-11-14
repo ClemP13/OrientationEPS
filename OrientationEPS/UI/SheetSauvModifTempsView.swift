@@ -15,17 +15,15 @@ struct SheetSauvModifTempsView: View {
     @State var ancienTemps : Int32 = 0
     @State var nouveauTemps = 0
     @Binding var list: [ParcoursModificationTemps]
-    @Binding var listReal : [Detail]
     @State var bonFormatSec = true
     @State var bonFormatMin = true
     @State var min = ""
     @State var sec = ""
     @State var detailManager : DetailManager
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var errValList : ErrValList
+    @EnvironmentObject var listActuelle : ListActuelle
     
     var body: some View {
-        NavigationView{
             VStack{
                 HStack{
                 Text("Temps enregistré")
@@ -125,7 +123,7 @@ struct SheetSauvModifTempsView: View {
                         Image(systemName: "xmark")
                     }))
             }
-        }
+        
         
     }
 
@@ -152,9 +150,9 @@ struct SheetSauvModifTempsView: View {
             print("suppession")
             DetailManager(groupe: objGroupe).removeDetail(detail: parcoursModif.detail)
         }
-        listReal = detailManager.parcoursRealiseList
-        errValList.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listReal)
-        errValList.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listReal)
+      listActuelle.listReal = detailManager.actuReaList()
+        listActuelle.arrayValid = ErreurManager().ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
+        listActuelle.arrayErr = ErreurManager().ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
         list = ModificationTempsManager().getModificationTempsList(crsId: objGroupe.courseId, grId: objGroupe.id)
         self.presentationMode.wrappedValue.dismiss()
     }

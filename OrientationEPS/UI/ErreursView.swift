@@ -18,7 +18,6 @@ struct ErreursView: View {
     let choixText = ["Nombre de balises fausses","Nombre de balises correctes"]
     let color: [Color] = [.red,.green]
     @EnvironmentObject var listActuelle : ListActuelle
-    @State var listReal: [Detail] = []
     
     var body: some View {
         Picker("Correction", selection: $selectorIndex) {
@@ -47,45 +46,31 @@ struct ErreursView: View {
                         Spacer()
                         
                         if selectorIndex > 0 {
-                            Stepper(
-                                onIncrement: {
-                                    let value = errValList.arrayValid[index] + 1
-                                    print(value)
-                                    UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
-                                    errValList.arrayValid[index] = value
-                                },
-                                onDecrement: {
-                                    if errValList.arrayValid[index] > 0{
-                                        let value = errValList.arrayValid[index] - 1
-                                        UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
-                                        errValList.arrayValid[index] = value
-                                    }else{
-                                        errValList.arrayValid[index] = 0
-                                    }
-                                    
-                                },
-                                label: { Text(" \(errValList.arrayValid[index]) ")})
-                            
+                            Stepper(value: Binding(
+                                        get: { self.listActuelle.arrayValid[index] },
+                                        set: { (newValue) in
+                                            if newValue >= 0 {
+                                            UpdateValid(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(newValue))
+                                                listActuelle.listReal = DetailManager(groupe: objGroupe).actuReaList()
+                                                self.listActuelle.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
+                                            }else{
+                                                self.listActuelle.arrayValid[index] = 0
+                                            }})) {
+                                Text(" \(listActuelle.arrayValid[index]) ")
+                            }
                         }else{
-                            Stepper(
-                                onIncrement: {
-                                    let value = errValList.arrayErr[index] + 1
-                                    print(errValList.arrayErr)
-                                    UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
-                                    errValList.arrayErr[index] = value
-                                },
-                                onDecrement: {
-                                    if errValList.arrayErr[index] > 0{
-                                        let value = errValList.arrayErr[index] - 1
-                                        UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(value))
-                                        errValList.arrayErr[index] = value
-                                        
-                                    }else{
-                                        errValList.arrayErr[index] = 0
-                                    }
-                                    
-                                },
-                                label: { Text(" \(errValList.arrayErr[index]) ")})
+                            Stepper(value: Binding(
+                                        get: { self.listActuelle.arrayErr[index] },
+                                        set: { (newValue) in
+                                            if newValue >= 0 {
+                                            UpdateErr(det: DetailManager(groupe: objGroupe).parcoursRealiseList[index], nb: Int(newValue))
+                                                listActuelle.listReal = DetailManager(groupe: objGroupe).actuReaList()
+                                                self.listActuelle.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
+                                            }else{
+                                                self.listActuelle.arrayErr[index] = 0
+                                            }})) {
+                                Text(" \(listActuelle.arrayErr[index]) ")
+                            }
                         }
                     }
                 }
@@ -96,20 +81,20 @@ struct ErreursView: View {
         .navigationTitle("Carton de contrôle")
         .onAppear(){
             parcoursManager = ParcoursManager(courseId: objGroupe.courseId)
-            errValList.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listReal)
-            errValList.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listReal)
+            listActuelle.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
+            listActuelle.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
         }
         
     }
     
     func UpdateErr(det : Detail, nb : Int) {
-        erreurManager.updateNbErreur(detail: det, nbErreur: Int16(nb), parcoursRealiseList: listReal)
-        errValList.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listReal)
+        erreurManager.updateNbErreur(detail: det, nbErreur: Int16(nb), parcoursRealiseList: listActuelle.listReal)
+        listActuelle.arrayErr = erreurManager.ArrayNbErreur(parcoursRealiseList: listActuelle.listReal)
     }
     
     func UpdateValid(det : Detail, nb : Int) {
-        erreurManager.updateNbValidation(detail: det, nbValid: Int16(nb), parcoursRealiseList: listReal)
-        errValList.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listReal)
+        erreurManager.updateNbValidation(detail: det, nbValid: Int16(nb), parcoursRealiseList: listActuelle.listReal)
+        listActuelle.arrayValid = erreurManager.ArrayNbValid(parcoursRealiseList: listActuelle.listReal)
         
     }
 }

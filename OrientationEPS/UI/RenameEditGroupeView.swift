@@ -16,7 +16,6 @@ struct RenameEditGroupeView: View {
     @State var ancienNom = ""
     
     var body: some View {
-        NavigationView{
             VStack{
         Text("\(objGroupe.nomGroupe)")
             .multilineTextAlignment(.center)
@@ -70,7 +69,7 @@ struct RenameEditGroupeView: View {
                 Image(systemName: "xmark")
             }))
     }
-}
+
             .onAppear(){
                 ancienNom = objGroupe.nomGroupe
                 groupeManager = GroupeManager(courseId: objGroupe.courseId)

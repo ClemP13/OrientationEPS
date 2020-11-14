@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ChronoView: View {
 
-    @EnvironmentObject var stopwatch : Stopwatch
+
     
     var body: some View {
         VStack{
         Image(systemName: "stopwatch.fill")
             .font(.system(size: 60))
             .padding()
-        Text(TempsAffichable().secondsToMinutesSeconds(temps: Int32(stopwatch.restant)) )
+        Text(TempsAffichable().secondsToMinutesSeconds(temps: Int32(0)) )
             .font(.system(size: 60))
         }
     }

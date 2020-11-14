@@ -15,10 +15,9 @@ struct GestionListeGroupeView: View {
     @State var selectedGroupe: Groupe?
     @State var showingAlert2 = false
     @State private var action: Int? = 0
-    @EnvironmentObject var stopwatch : Stopwatch
     
     var body: some View {
-        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(stopwatch), tag: 1, selection: $action) {}
+        NavigationLink(destination: GeneralView(groupeManager: GroupeManager(courseId: objCourse.id!), selectedTab: 2).environmentObject(objCourse), tag: 1, selection: $action) {}
         Form{
             Section(header: Text("Créer des coureurs")){
                 NavigationLink(destination: SheetMaquetteGroupeView(list: $list, groupeManager: GroupeManager(courseId: objCourse.id!), listeMaquette: MaquetteManager().MaquetteDistinctGroupeList)) {

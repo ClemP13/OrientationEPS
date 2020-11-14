@@ -52,7 +52,10 @@ struct ClassementManager {
             let nbErreur = Int32(storage.getNbErreursTotalesParGroupe(grId: gr.id, crsId: courseId, parcId: parcId))
             let nbParcRealises = Int32(storage.getNbParcoursRealises(grId: gr.id, crsId: courseId, parcId: parcId))
             let total = Int32(TempsAvecBonusMalus(tps: storage.getTempsTotalParGroupe(grId: gr.id, crsId: courseId, parcId: parcId), nbErreur: nbErreur, nbValid: nbValid, bonus: bonus, malus: malus))
-            let moy = Int32(TempsAvecBonusMalus(tps: storage.getTempsMoyenParGroupe(grId: gr.id, crsId: courseId, parcId: parcId), nbErreur: nbErreur, nbValid: nbValid, bonus: bonus, malus: malus))
+            var moy = Int32(0)
+            if nbParcRealises > 0 {
+                moy = Int32(total / nbParcRealises)
+            }
             let rkMoyen = Int32(storage.getRKMoyenParGroupe(grId: gr.id, crsId: courseId, parcId: parcId))
             let item = DetailClassement(groupe: gr, nbValid: nbValid, nbErreur: nbErreur, tempsMoy: moy, tempsTotal: total, nbParcoursRealises: nbParcRealises, rkMoyen: rkMoyen)
             classementList.append(item)

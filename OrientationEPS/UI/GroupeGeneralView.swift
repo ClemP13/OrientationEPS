@@ -30,7 +30,7 @@ struct GroupeGeneralView: View {
                 .onAppear(perform: {
                     groupeManager = GroupeManager(courseId: objCourse.id!)
                 })
-        }.navigationBarHidden(true)
+        }
     }
     
 }

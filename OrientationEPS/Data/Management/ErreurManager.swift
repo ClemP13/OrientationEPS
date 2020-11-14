@@ -23,7 +23,6 @@ struct ErreurManager {
         for parc in (parcoursRealiseList) {
             err.append(parc.nbErreur)
         }
-        print(err)
         return err
     }
     
@@ -32,7 +31,6 @@ struct ErreurManager {
         for parc in (parcoursRealiseList) {
             valid.append(parc.nbValidation)
         }
-        print(valid)
         return valid
     }
 }

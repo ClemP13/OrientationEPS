@@ -18,7 +18,6 @@ struct RenameEditParcoursView: View {
     @State private var bonFormatDistance = true
     
     var body: some View {
-        NavigationView {
             VStack{
                 VStack{
                 Text("\(objParcours.parcoursNom)")
@@ -90,7 +89,7 @@ struct RenameEditParcoursView: View {
                         Image(systemName: "xmark")
                     }))
             }
-        }
+        
         .onAppear(){
             ancienNom = objParcours.parcoursNom
             parcoursManager = ParcoursManager(courseId: objParcours.courseId)
