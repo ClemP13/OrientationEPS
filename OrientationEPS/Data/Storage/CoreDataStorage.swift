@@ -11,7 +11,7 @@ import CoreData
 class OriEPS {
     
     
-    lazy var persistentContainer: NSPersistentContainer = {
+   private lazy var persistentContainer: NSPersistentContainer = {
             let container = NSPersistentContainer(name: "OrientationEPS")
             container.loadPersistentStores { description, error in
                 if let error = error {
@@ -229,6 +229,8 @@ class OriEPS {
         }
         return EnCourseList
     }
+    
+    
     
     func fetchRecordParcours(parcoursId: UUID, courseId: UUID) -> [Detail] {
         let recordParcours: [Detail]

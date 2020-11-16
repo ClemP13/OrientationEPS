@@ -128,7 +128,6 @@ struct GroupeDetailsView: View {
             }
         }
         .navigationTitle(objGroupe.nomGroupe)
-        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
                                 HStack {
                                     Image(systemName: "rectangle.and.pencil.and.ellipsis")

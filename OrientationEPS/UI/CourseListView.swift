@@ -12,10 +12,8 @@ struct CourseListView: View {
     @State var courseManager = CourseManager()
     @State var list : [Course] = []
     @State var selectedCourse: Course?
-    @State private var action : Int? = 0
     @ObservedObject var objCourse = CourseActuelle()
     @State var courseId : UUID = UUID()
-    @State var navVisible = false
     
     init() {
         objCourse.id = UUID()
@@ -23,7 +21,6 @@ struct CourseListView: View {
     var body: some View {
         NavigationView{
             VStack{
-                NavigationLink(destination: getDestination().environmentObject(objCourse), tag: 1, selection: $action){}
                 HStack{
                     Link(destination: URL(string: "https://www.youtube.com/channel/UCNdX88jqrWL_SR-4qLRiLPQ")!) {
                         Image(systemName: "video.bubble.left.fill")
@@ -96,23 +93,7 @@ struct CourseListView: View {
             
         }
             .background(Color.orange)
-            .navigationViewStyle(StackNavigationViewStyle())
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            HStack {
-                                Text("Orientation")
-                                    .fontWeight(.heavy)
-                                    .foregroundColor(Color.orange)
-                                Text("EPS")
-                                    .fontWeight(.heavy)
-                                    .foregroundColor(Color("ColorDarkLight"))
-                            }.font(.title)
-                            .padding()
-                            }}
-          
             .onAppear(){
-                navVisible = true
                 list = courseManager.recupListe()
                 if !UserDefaults.standard.bool(forKey: "premièreOuverture"){
                     UserDefaults.standard.setValue(true, forKey: "premièreOuverture")
@@ -120,8 +101,25 @@ struct CourseListView: View {
                 }
                 
             }
-            
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text("Orientation")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.orange)
+                        Text("EPS")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color("ColorDarkLight"))
+                    }.font(.title)
+                    .padding()
+                    }}
+
         }
+        .environmentObject(objCourse)
+        .navigationViewStyle(StackNavigationViewStyle())
+        
+
         
     }
     func getDestination() -> AnyView {

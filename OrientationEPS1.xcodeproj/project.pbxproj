@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5CA29CF6255C291200329C7C /* OrientationEPSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29CF5255C291200329C7C /* OrientationEPSApp.swift */; };
-		5CA29CF8255C291200329C7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29CF7255C291200329C7C /* ContentView.swift */; };
 		5CA29CFA255C291500329C7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA29CF9255C291500329C7C /* Assets.xcassets */; };
 		5CA29CFD255C291500329C7C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA29CFC255C291500329C7C /* Preview Assets.xcassets */; };
 		5CA29D22255C296A00329C7C /* SheetSauvModifTempsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D07255C296A00329C7C /* SheetSauvModifTempsView.swift */; };
@@ -58,7 +57,6 @@
 /* Begin PBXFileReference section */
 		5CA29CF2255C291200329C7C /* OrientationEPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrientationEPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA29CF5255C291200329C7C /* OrientationEPSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationEPSApp.swift; sourceTree = "<group>"; };
-		5CA29CF7255C291200329C7C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5CA29CF9255C291500329C7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5CA29CFC255C291500329C7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5CA29CFE255C291500329C7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				5CA29D3E255C299200329C7C /* Data */,
 				5CA29CF5255C291200329C7C /* OrientationEPSApp.swift */,
 				5CA29D65255C2A6600329C7C /* Sounds */,
-				5CA29CF7255C291200329C7C /* ContentView.swift */,
 				5CA29CF9255C291500329C7C /* Assets.xcassets */,
 				5CA29CFE255C291500329C7C /* Info.plist */,
 				5CA29D51255C299200329C7C /* Course.swift */,
@@ -310,7 +307,6 @@
 				5CA29D5C255C299200329C7C /* ClassementManager.swift in Sources */,
 				5CA29D26255C296A00329C7C /* ReglagesView.swift in Sources */,
 				5CA29D36255C296A00329C7C /* SheetSauvParcoursMaquetteView.swift in Sources */,
-				5CA29CF8255C291200329C7C /* ContentView.swift in Sources */,
 				5CA29D2D255C296A00329C7C /* SheetSauvGroupeMaquetteView.swift in Sources */,
 				5CA29D29255C296A00329C7C /* ChronoView.swift in Sources */,
 				5CA29D5D255C299200329C7C /* SuiviManager.swift in Sources */,

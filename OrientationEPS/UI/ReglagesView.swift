@@ -108,8 +108,6 @@ struct ReglagesView: View {
             nbParc = Int16(list.count)
         })
         .navigationTitle("\(objCourse.nomCourse)/Parcours")
-        .navigationViewStyle(StackNavigationViewStyle())
-        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
                                 Image(systemName: "checkmark.circle.fill")
                                 .font(.title)

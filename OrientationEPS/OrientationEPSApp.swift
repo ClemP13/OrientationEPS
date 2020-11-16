@@ -11,7 +11,7 @@ import SwiftUI
 struct OrientationEPSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CourseListView()
         }
     }
 }

@@ -29,12 +29,12 @@ struct Settings: View {
                 Text("Retour page d'accueil")
                 Image(systemName: "house.fill")
             })
-            .foregroundColor(Color("ColorDarkLight"))
+            .foregroundColor(.white)
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(lineWidth: 2)
-                    .foregroundColor(.orange)
+                    .foregroundColor(.white)
             )
         }.padding()
         Form{
@@ -172,7 +172,7 @@ struct Settings: View {
                 }
                 }}*/
         }
-    }
+    }.background(Color.orange)
 }
 
 }

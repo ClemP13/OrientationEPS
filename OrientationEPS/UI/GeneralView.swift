@@ -13,6 +13,7 @@ struct GeneralView: View {
     @State private var accueil: Int? = 1
     @State var timerOn : Bool = false
     let title = ["","Réglages","Général","Suivi","Classement"]
+    let icon = ["","gearshape.fill","square.grid.3x2.fill","figure.walk.diamond.fill","hare.fill"]
     @EnvironmentObject var objCourse : CourseActuelle
     
     var body: some View {
@@ -33,7 +34,7 @@ struct GeneralView: View {
             
             SuiviView(suiviManager: SuiviManager(courseId: objCourse.id!)).environmentObject(objCourse)
                 .tabItem {
-                    Image(systemName: "eye.fill")
+                    Image(systemName: "figure.walk.diamond.fill")
                     Text("Suivi")
                 }.tag(3)
             
@@ -43,31 +44,26 @@ struct GeneralView: View {
                     Text("Classement")
                 }.tag(4)
             
-            if timerOn {
-                
-                ChronoView()
-                    .tabItem {
-                        Image(systemName: "stopwatch.fill")
-                        Text(String(TempsAffichable().secondsToMinutesSeconds(temps: Int32(0)) ))
-                    }.tag(5)
-                
-            }
         }.accentColor(.orange)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Back")
         .toolbar {
             ToolbarItem(placement: .principal) {
                 HStack {
-                    Text(title[selectedTab])
+                    Image(systemName: icon[selectedTab])
+                        .foregroundColor(Color("ColorDarkLight"))
+                    Text(" \(title[selectedTab]) ")
                         .bold()
                         .foregroundColor(.orange)
-                }.font(.title)
+                        .font(.title)
+                    Image(systemName: icon[selectedTab])
+                        .foregroundColor(Color("ColorDarkLight"))
+                }
             }}
         .navigationBarItems(leading: EmptyView(), trailing: EmptyView())
         .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(){
             timerOn =  UserDefaults.standard.bool(forKey: "timerOn")
         }
-        
     }
 }
