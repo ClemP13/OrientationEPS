@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C5064762562C4DA0029B0E2 /* CDOriEPS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5C5064742562C4DA0029B0E2 /* CDOriEPS.xcdatamodeld */; };
 		5CA29CF6255C291200329C7C /* OrientationEPSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29CF5255C291200329C7C /* OrientationEPSApp.swift */; };
 		5CA29CFA255C291500329C7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA29CF9255C291500329C7C /* Assets.xcassets */; };
 		5CA29CFD255C291500329C7C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA29CFC255C291500329C7C /* Preview Assets.xcassets */; };
@@ -49,12 +50,12 @@
 		5CA29D5D255C299200329C7C /* SuiviManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D4B255C299200329C7C /* SuiviManager.swift */; };
 		5CA29D5E255C299200329C7C /* CourseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D4C255C299200329C7C /* CourseManager.swift */; };
 		5CA29D5F255C299200329C7C /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D4E255C299200329C7C /* CoreDataStorage.swift */; };
-		5CA29D60255C299200329C7C /* OrientationEPS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D4F255C299200329C7C /* OrientationEPS.xcdatamodeld */; };
 		5CA29D61255C299200329C7C /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA29D51255C299200329C7C /* Course.swift */; };
 		5CA29D67255C2A6600329C7C /* courseterm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CA29D66255C2A6600329C7C /* courseterm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C5064752562C4DA0029B0E2 /* CDOriEPS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CDOriEPS.xcdatamodel; sourceTree = "<group>"; };
 		5CA29CF2255C291200329C7C /* OrientationEPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrientationEPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA29CF5255C291200329C7C /* OrientationEPSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationEPSApp.swift; sourceTree = "<group>"; };
 		5CA29CF9255C291500329C7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		5CA29D4B255C299200329C7C /* SuiviManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuiviManager.swift; sourceTree = "<group>"; };
 		5CA29D4C255C299200329C7C /* CourseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseManager.swift; sourceTree = "<group>"; };
 		5CA29D4E255C299200329C7C /* CoreDataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
-		5CA29D50255C299200329C7C /* OriEPS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OriEPS.xcdatamodel; sourceTree = "<group>"; };
 		5CA29D51255C299200329C7C /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		5CA29D66255C2A6600329C7C /* courseterm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = courseterm.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,7 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				5CA29D4E255C299200329C7C /* CoreDataStorage.swift */,
-				5CA29D4F255C299200329C7C /* OrientationEPS.xcdatamodeld */,
+				5C5064742562C4DA0029B0E2 /* CDOriEPS.xcdatamodeld */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -336,12 +336,12 @@
 				5CA29D34255C296A00329C7C /* Settings.swift in Sources */,
 				5CA29D30255C296A00329C7C /* GroupeGeneralView.swift in Sources */,
 				5CA29D3A255C296A00329C7C /* SuiviView.swift in Sources */,
+				5C5064762562C4DA0029B0E2 /* CDOriEPS.xcdatamodeld in Sources */,
 				5CA29D55255C299200329C7C /* DetailManager.swift in Sources */,
 				5CA29D52255C299200329C7C /* ModificationTempsManager.swift in Sources */,
 				5CA29D57255C299200329C7C /* GroupeManager.swift in Sources */,
 				5CA29D27255C296A00329C7C /* RenameEditCourseView.swift in Sources */,
 				5CA29D5B255C299200329C7C /* ErreurManager.swift in Sources */,
-				5CA29D60255C299200329C7C /* OrientationEPS.xcdatamodeld in Sources */,
 				5CA29D5E255C299200329C7C /* CourseManager.swift in Sources */,
 				5CA29D39255C296A00329C7C /* GestionListeGroupeView.swift in Sources */,
 			);
@@ -534,13 +534,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5CA29D4F255C299200329C7C /* OrientationEPS.xcdatamodeld */ = {
+		5C5064742562C4DA0029B0E2 /* CDOriEPS.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5CA29D50255C299200329C7C /* OriEPS.xcdatamodel */,
+				5C5064752562C4DA0029B0E2 /* CDOriEPS.xcdatamodel */,
 			);
-			currentVersion = 5CA29D50255C299200329C7C /* OriEPS.xcdatamodel */;
-			path = OrientationEPS.xcdatamodeld;
+			currentVersion = 5C5064752562C4DA0029B0E2 /* CDOriEPS.xcdatamodel */;
+			path = CDOriEPS.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

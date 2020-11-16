@@ -12,7 +12,7 @@ class OriEPS {
     
     
    private lazy var persistentContainer: NSPersistentContainer = {
-            let container = NSPersistentContainer(name: "OrientationEPS")
+            let container = NSPersistentContainer(name: "CDOriEPS")
             container.loadPersistentStores { description, error in
                 if let error = error {
                      fatalError("Unable to load persistent stores: \(error)")
@@ -29,7 +29,7 @@ class OriEPS {
     // ------------------------------- Course -------------------------------
     func fetchCourseList() -> [Course] {
         let CourseList: [Course]
-        let fetchRequest:NSFetchRequest<CDCourse> = CDCourse.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDCourse>(entityName:"CDCourse")
         if let rawCourseList = try? context.fetch(fetchRequest) {
             CourseList = rawCourseList.compactMap({ (rawCourse: CDCourse) -> Course? in
                 Course(fromCoreDataObject: rawCourse)
@@ -104,7 +104,7 @@ class OriEPS {
     
     func getNbParcours(crsId : UUID) -> Int {
         let count : Int
-        let fetchRequest:NSFetchRequest<CDParcours> = CDParcours.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDParcours>(entityName:"CDParcours")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@", crsId as CVarArg)
             if let cnt = try? context.count(for: fetchRequest){
                 count = cnt
@@ -117,7 +117,7 @@ class OriEPS {
     
     func fetchParcoursList(crsId:UUID) -> [Parcours] {
         let ParcoursList: [Parcours]
-        let fetchRequest:NSFetchRequest<CDParcours> = CDParcours.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDParcours>(entityName:"CDParcours")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@", crsId as CVarArg)
         if let rawParcoursList = try? context.fetch(fetchRequest) {
             ParcoursList = rawParcoursList.compactMap({ (rawParcours: CDParcours) -> Parcours? in
@@ -171,7 +171,7 @@ class OriEPS {
     
     func fetchGroupeList(crsId: UUID) -> [Groupe] {
         let GroupeList: [Groupe]
-        let fetchRequest:NSFetchRequest<CDGroupe> = CDGroupe.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDGroupe>(entityName:"CDGroupe")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@", crsId as CVarArg)
         if let rawGroupeList = try? context.fetch(fetchRequest) {
             GroupeList = rawGroupeList.compactMap({ (rawGroupe: CDGroupe) -> Groupe? in
@@ -184,7 +184,7 @@ class OriEPS {
     }
     
     private func fetchCDGroupe(withId GroupeId:UUID) -> CDGroupe? {
-        let fetchRequest: NSFetchRequest<CDGroupe> = CDGroupe.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDGroupe>(entityName:"CDGroupe")
         fetchRequest.predicate = NSPredicate(format: "id == %@", GroupeId as CVarArg)
         fetchRequest.fetchLimit = 1
         let fetchResult:[CDGroupe]? = try? context.fetch(fetchRequest)
@@ -214,10 +214,11 @@ class OriEPS {
     }
     
     // ------------------------------- Detail -------------------------------
+
     
     func fetchEnCourse(grId: UUID) -> [Detail] {
         let EnCourseList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "groupeId == %@ AND arrivee == nil", grId as CVarArg)
         fetchRequest.fetchLimit = 1
         if let rawEnCourse = try? context.fetch(fetchRequest) {
@@ -234,7 +235,7 @@ class OriEPS {
     
     func fetchRecordParcours(parcoursId: UUID, courseId: UUID) -> [Detail] {
         let recordParcours: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND parcoursId == %@ AND temps != 0", courseId as CVarArg, parcoursId as CVarArg)
         fetchRequest.fetchLimit = 1
         let SortDescriptor : NSSortDescriptor = NSSortDescriptor(key: "temps", ascending: true)
@@ -252,7 +253,7 @@ class OriEPS {
     
     func fetchRealise(grId: UUID) -> [Detail] {
         let parcoursRealiseList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "groupeId == %@ AND arrivee != nil", grId as CVarArg)
         if let rawParcoursRealise = try? context.fetch(fetchRequest) {
             parcoursRealiseList = rawParcoursRealise.compactMap({ (rawDetail: CDDetail) -> Detail? in
@@ -315,7 +316,7 @@ class OriEPS {
     
     func fetchDetailList(crsId:UUID) -> [Detail] {
         let DetailList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@", crsId as CVarArg)
         if let rawDetailList = try? context.fetch(fetchRequest) {
             DetailList = rawDetailList.compactMap({ (rawDetail: CDDetail) -> Detail? in
@@ -329,7 +330,7 @@ class OriEPS {
     
     func fetchDetailListdunGroupe(crsId:UUID, grId: UUID) -> [Detail] {
         let DetailList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@", crsId as CVarArg, grId as CVarArg)
         if let rawDetailList = try? context.fetch(fetchRequest) {
             DetailList = rawDetailList.compactMap({ (rawDetail: CDDetail) -> Detail? in
@@ -344,7 +345,7 @@ class OriEPS {
     
     func fetchDetailListdunParcours(crsId:UUID, parcId: UUID) -> [Detail] {
         let DetailList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND parcoursId == %@", crsId as CVarArg, parcId as CVarArg)
         if let rawDetailList = try? context.fetch(fetchRequest) {
             DetailList = rawDetailList.compactMap({ (rawDetail: CDDetail) -> Detail? in
@@ -386,7 +387,7 @@ class OriEPS {
     
     func fetchParcoursEnCours(crsId: UUID) -> [Detail] {
         let parcoursEnCoursList: [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND arrivee == nil", crsId as CVarArg)
         if let rawParcoursEnCours = try? context.fetch(fetchRequest) {
             parcoursEnCoursList = rawParcoursEnCours.compactMap({ (rawDetail: CDDetail) -> Detail? in
@@ -400,7 +401,7 @@ class OriEPS {
     
     func getNbParcoursRealises(grId : UUID, crsId : UUID, parcId : UUID?) -> Int {
         let count : Int
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
             fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -416,7 +417,7 @@ class OriEPS {
     
     func getNbErreursTotalesParGroupe(grId : UUID, crsId : UUID, parcId: UUID?) -> Int {
         let sum : Int
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -433,7 +434,7 @@ class OriEPS {
     
     func getNbValidTotalesParGroupe(grId : UUID, crsId : UUID, parcId: UUID?) -> Int {
         let sum : Int
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -449,7 +450,7 @@ class OriEPS {
     
     func getTempsTotalParGroupe(grId : UUID, crsId : UUID, parcId: UUID?) -> Int32 {
         let total : Int32
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -466,7 +467,7 @@ class OriEPS {
     func getTempsMoyenParGroupe(grId : UUID, crsId : UUID, parcId : UUID?) -> Int32 {
         let total : Int32
         let moy : Int32
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -504,7 +505,7 @@ class OriEPS {
             }
             distanceTotale = Int32(listPc.reduce(0){ $0 + $1.distance })
             }
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         if parcId == nil {
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@ AND arrivee != nil", crsId as CVarArg, grId as CVarArg)
         }else{
@@ -527,7 +528,7 @@ class OriEPS {
     
     func termineDepuis(grId : UUID, crsId : UUID) -> [Detail] {
         let detailList : [Detail]
-        let fetchRequest:NSFetchRequest<CDDetail> = CDDetail.fetchRequest()
+        let fetchRequest = NSFetchRequest<CDDetail>(entityName:"CDDetail")
         fetchRequest.predicate = NSPredicate(format: "courseId == %@ AND groupeId == %@", crsId as CVarArg, grId as CVarArg)
         fetchRequest.fetchLimit = 1
         let SortDescriptor : NSSortDescriptor = NSSortDescriptor(key: "arrivee", ascending: false)
